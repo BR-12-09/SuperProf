@@ -4,3 +4,8 @@ sqlalchemy
 uvicorn
 psycopg2-binary
 python-dotenv
+pyjwt
+pytest
+pytest-cov
+httpx
+requests

@@ -1,4 +1,3 @@
-# app/models/user.py
 from sqlalchemy import Column, String, Enum
 from sqlalchemy.orm import relationship
 import uuid, enum
@@ -17,6 +16,7 @@ class User(BaseSQL):
     last_name = Column(String)
     email = Column(String, unique=True, nullable=False, index=True)
     role = Column(Enum(UserRole), nullable=False, default=UserRole.student)
+    hashed_password = Column(String, nullable=True)
 
     # Relation tuteur -> ses offres
     offers = relationship("Offer", back_populates="tutor", cascade="all,delete", lazy="selectin")

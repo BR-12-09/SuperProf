@@ -1,6 +1,4 @@
-# app/models/offer.py
 from sqlalchemy import Column, String, ForeignKey, Numeric
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 import uuid
 
@@ -13,6 +11,6 @@ class Offer(BaseSQL):
     tutor_id = Column(String, ForeignKey("users.id"), nullable=False)
     subject = Column(String, index=True, nullable=False)
     description = Column(String, nullable=True)
-    price_hour = Column(Numeric(scale=2), nullable=False)
+    price_hour = Column(Numeric(precision=10, scale=2), nullable=False)
 
     tutor = relationship("User", back_populates="offers")

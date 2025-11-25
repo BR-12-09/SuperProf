@@ -1,17 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app import models
-from app import serializers
 from app.database import get_db
 from app.exceptions.user import UserNotFound, UserAlreadyExists
 from app.services import user as user_service
-from app.serializers.user import UserOutput  # pour les réponses (optionnel)
+from app.serializers.user import User as SerializersUser, UserOutput  # pour les réponses (optionnel)
 
 user_router = APIRouter(prefix="/users")
 
 @user_router.post("/", tags=["users"], response_model=UserOutput)
-async def create_user(user: serializers.User, db: Session = Depends(get_db)):
+async def create_user(user: SerializersUser, db: Session = Depends(get_db)):
     try:
         return user_service.create_user(user=user, db=db)
     except UserAlreadyExists:

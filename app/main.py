@@ -1,13 +1,15 @@
-# app/main.py
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import time
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.health import health_router
 from app.routers.user import user_router
-from app.routers.offer import offer_router, booking_router
+from app.routers.offer import offer_router
+from app.routers.booking import booking_router
+from app.routers.auth import auth_router
 from app.database import BaseSQL, engine
 
 def wait_for_db(max_retries: int = 60, delay_sec: float = 1.0):
@@ -34,7 +36,16 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080"],  # ou ["*"] pour la démo
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(health_router)
 app.include_router(user_router)
 app.include_router(offer_router)
 app.include_router(booking_router)
+app.include_router(auth_router)

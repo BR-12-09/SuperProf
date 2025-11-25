@@ -1,4 +1,3 @@
-# app/models/booking.py
 from sqlalchemy import Column, String, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 import uuid, enum
@@ -19,4 +18,4 @@ class Booking(BaseSQL):
     status = Column(Enum(BookingStatus), nullable=False, default=BookingStatus.PENDING)
 
     offer = relationship("Offer")
-    # Tu peux ajouter: student = relationship("User") plus tard si besoin
+    student = relationship("User")
