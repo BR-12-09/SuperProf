@@ -6,6 +6,7 @@ from app.models.booking import Booking, BookingStatus
 from app.models.user import User, UserRole
 from app.serializers.booking import BookingCreate, BookingOut
 from app.routers.utils import get_user_id
+from app.models.timeslot import Timeslot
 
 booking_router = APIRouter(prefix="/bookings", tags=["bookings"])
 
@@ -74,10 +75,28 @@ def create_booking(payload: BookingCreate, db: Session = Depends(get_db), me_id:
     offer = db.query(Offer).filter(Offer.id == payload.offer_id).first()
     if not offer:
         raise HTTPException(404, "Offer not found")
-    booking = Booking(offer_id=offer.id, student_id=me_id, status=BookingStatus.PENDING)
+    timeslot = None
+    if payload.timeslot_id:
+        timeslot = db.query(Timeslot).filter(Timeslot.id == payload.timeslot_id).first()
+        if not timeslot:
+            raise HTTPException(404, "Timeslot not found")
+        if timeslot.offer_id != offer.id:
+            raise HTTPException(400, "Timeslot does not belong to this offer")
+        if timeslot.is_booked:
+            raise HTTPException(409, "Timeslot already booked")
+
+    booking = Booking(offer_id=offer.id, student_id=student.id, status=BookingStatus.PENDING)
     db.add(booking)
     db.commit()
     db.refresh(booking)
+
+    if timeslot:
+        timeslot.is_booked = True
+        timeslot.booking_id = booking.id
+        db.add(timeslot)
+        db.commit()
+        db.refresh(timeslot)
+
     return booking
 
 @booking_router.post("/{booking_id}/{action}", response_model=BookingOut)
@@ -90,6 +109,14 @@ def decide_booking(booking_id: str, action: str, db: Session = Depends(get_db), 
         raise HTTPException(403, "Not your offer")
     if action.upper() not in ("ACCEPT", "REJECT"):
         raise HTTPException(400, "Action must be ACCEPT or REJECT")
+    if action.upper() == "REJECT":
+        # free any linked timeslot
+        ts = db.query(Timeslot).filter(Timeslot.booking_id == booking.id).first()
+        if ts:
+            ts.is_booked = False
+            ts.booking_id = None
+            db.add(ts)
+            db.commit()
     booking.status = BookingStatus.ACCEPTED if action.upper()=="ACCEPT" else BookingStatus.REJECTED
     db.commit()
     db.refresh(booking)

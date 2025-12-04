@@ -1,390 +1,844 @@
 <!doctype html>
-<html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <title>SuperProf — mini front (roles)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root { --card:#f8f8f8; --border:#ddd; }
-    * { box-sizing: border-box; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 980px; margin: 24px auto; padding: 0 12px; }
-    header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 18px; }
-    nav a { margin-right: 8px; text-decoration:none; color:#06c; }
-    section { border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 18px; background: var(--card); }
-    h2 { margin: 0 0 12px; }
-    h3 { margin: 12px 0 8px; }
-    input, button, select { padding: 8px; margin: 4px 0; font-size: 14px; }
-    button { cursor: pointer; border-radius: 8px; border: 1px solid var(--border); background: white; }
-    button.primary { background: #0b5; color: white; border-color: #0b5; }
-    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .col { display: flex; flex-direction: column; min-width: 280px; }
-    pre { background: white; padding: 10px; overflow: auto; border: 1px dashed var(--border); border-radius: 8px; }
-    .badge { display:inline-block; padding: 4px 8px; border-radius: 999px; border:1px solid var(--border); background:white; font-size:12px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px; }
-    .muted { color:#666; }
-    .hidden { display:none; }
-    .card { background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; }
-    .card h4 { margin:6px 0; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SuperProf — Démo</title>
+<style>
+  :root{
+    --bg:#0f172a; --fg:#e5e7eb; --muted:#94a3b8;
+    --card:#111827; --border:#1f2937; --accent:#22c55e; --accent-2:#2dd4bf;
+    --danger:#ef4444; --warn:#f59e0b; --info:#60a5fa; --chip:#0b1227;
+    --radius:14px; --shadow:0 6px 24px rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    color:var(--fg); background:
+      radial-gradient(1200px 600px at -10% -10%, rgba(45,212,191,.2), rgba(0,0,0,0) 60%),
+      radial-gradient(1200px 600px at 110% -20%, rgba(34,197,94,.20), rgba(0,0,0,0) 60%),
+      linear-gradient(180deg, #0a0f1f 0%, #0b1227 100%);
+    min-height:100%;
+  }
+  header{position:sticky; top:0; z-index:50; backdrop-filter: blur(8px);
+    background: rgba(10,16,31,.6); border-bottom:1px solid rgba(255,255,255,.06);}
+  .wrap{max-width:1100px; margin:0 auto; padding:16px}
+  .bar{display:flex; align-items:center; justify-content:space-between; gap:16px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px}
+  .logo{width:36px; height:36px; border-radius:10px;
+    background: conic-gradient(from 180deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 8px 30px rgba(45,212,191,.15);}
+  .who{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--muted)}
+  .chip{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; background:var(--chip);
+    border:1px solid var(--border); border-radius:999px; font-size:12px; color:#cbd5e1}
+  .btn{appearance:none; border:1px solid var(--border); color:var(--fg);
+    background: linear-gradient(180deg, #121a33 0%, #0e152b 100%); cursor:pointer;
+    padding:10px 14px; border-radius:10px; font-weight:600; letter-spacing:.2px;
+    box-shadow: var(--shadow); transition: transform .05s ease, filter .2s ease, border-color .2s ease;}
+  .btn:hover{filter:brightness(1.05); border-color:#2b3553}
+  .btn:active{transform:translateY(1px)}
+  .btn.pri{background: linear-gradient(180deg, #17b169 0%, #0b8a50 100%); border-color:#0ea35b}
+  .btn.danger{background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%); border-color:#b91c1c}
+  .btn.ghost{background:transparent; border-color:var(--border)}
+  .grid{display:grid; gap:16px}
+  .grid.two{grid-template-columns: repeat(2, minmax(0,1fr))}
+  @media (max-width:900px){ .grid.two{grid-template-columns:1fr} }
+  section.card{background: linear-gradient(180deg, #0e142b 0%, #0a1126 100%);
+    border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow: var(--shadow);}
+  h1{font-size:20px; margin:0} h2{font-size:18px; margin:0 0 10px} h3{font-size:16px; margin:8px 0 8px; color:#cbd5e1}
+  p.muted{color:var(--muted); margin:8px 0} label{font-size:12px; color:#a8b0c6}
+  input, textarea, select{width:100%; background:#0b1227; color:var(--fg); border:1px solid var(--border);
+    border-radius:10px; padding:10px 12px; outline:none;}
+  textarea{min-height:90px; resize:vertical}
+  .row{display:flex; gap:12px; flex-wrap:wrap}
+  .list{display:grid; gap:12px}
+  .item{display:grid; gap:8px; border:1px solid var(--border); border-radius:12px; padding:12px;
+    background:linear-gradient(180deg, #0b142c 0%, #0a1229 100%);}
+  .item h4{margin:0; font-size:15px}
+  .pill{display:inline-flex; gap:6px; padding:4px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); color:#cbd5e1}
+  .pill.ok{border-color:#14532d; background:#052e16}
+  .pill.warn{border-color:#7c2d12; background:#451a03}
+  .tabs{display:flex; gap:8px; border-bottom:1px solid var(--border); margin-bottom:12px}
+  .tab{padding:10px 12px; border:1px solid var(--border); border-bottom:none; border-radius:12px 12px 0 0; background:#0b1227; cursor:pointer}
+  .tab.active{background:#0f1a39}
+  .footer{color:#778; font-size:12px; text-align:center; padding:18px}
+  .toast{position:fixed; right:16px; bottom:16px; z-index:60; max-width:380px; padding:12px 14px;
+    border-radius:12px; border:1px solid var(--border);
+    background:linear-gradient(180deg, #0d1938 0%, #0a132b 100%); box-shadow:var(--shadow); color:#dbeafe; display:none;}
+  .skeleton{background:linear-gradient(90deg, #0d1530 25%, #0c1229 37%, #0d1530 63%); background-size: 400% 100%; animation: shimmer 1.4s ease infinite}
+  @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+  .hidden{display:none}
+  .stars{letter-spacing:.2px}
+</style>
 </head>
 <body>
-  <header>
-    <h1>SuperProf — mini UI</h1>
-    <div>
-      <span class="badge" id="who">not logged</span>
-      <button id="btnLogout" class="hidden">Logout</button>
+
+<header>
+  <div class="wrap bar">
+    <div class="brand">
+      <div class="logo"></div>
+      <h1>SuperProf</h1>
     </div>
-  </header>
+    <div class="who">
+      <span id="who" class="chip">non connecté</span>
+      <button id="btnLogout" class="btn ghost hidden">Se déconnecter</button>
+    </div>
+  </div>
+</header>
 
-  <!-- PAGE: LOGIN/REGISTER -->
-  <section id="pageAuth">
-    <h2>Welcome</h2>
-    <p class="muted">Crée un compte <b>Student</b> ou <b>Tutor</b>, ou connecte-toi sur un compte déjà existant.</p>
+<main class="wrap" style="padding-top:22px; padding-bottom:30px">
+  <!-- PAGE: AUTH -->
+  <section id="pageAuth" class="card">
+    <div class="grid two">
+        <h2>Bienvenue 👋</h2>
+        <p class="muted">Crée un compte <b>Student</b> ou <b>Tutor</b>, ou connecte-toi. Tu seras redirigé(e) selon ton rôle.</p>
 
-    <div class="grid">
-      <div class="col">
-        <h3>Register (Tutor)</h3>
-        <div class="row">
-          <input id="rt_first" placeholder="first_name" />
-          <input id="rt_last" placeholder="last_name" />
-        </div>
-        <div class="row">
-          <input id="rt_email" placeholder="email (ex: alice.demo@example.com)" size="36" />
-          <input id="rt_pass" type="password" placeholder="password" />
-        </div>
-        <button id="btnRegisterTutor" class="primary">Register + Login as Tutor</button>
-        <div class="muted">TIP comptes seedés : <code>alice.tutor@example.com / pass</code></div>
-        <pre id="outRegisterTutor"></pre>
+        <div class="grid two">
+          <!-- Tutor register -->
+          <div class="item">
+            <h3>Créer un compte Tutor</h3>
+            <div class="row">
+              <input id="rt_first" placeholder="first_name" />
+              <input id="rt_last" placeholder="last_name" />
+            </div>
+            <input id="rt_email" placeholder="email (ex: alice.demo@example.com)" />
+            <input id="rt_pass" placeholder="password" type="password" />
+            <button id="btnRegisterTutor" class="btn pri">Register + Login Tutor</button>
+            <p class="muted">Seed: <code>alice.tutor@example.com / pass</code></p>
+          </div>
 
-        <h3>Login (Tutor)</h3>
-        <div class="row">
-          <input id="lt_email" placeholder="email" />
-          <input id="lt_pass" type="password" placeholder="password" />
+          <!-- Student register -->
+          <div class="item">
+            <h3>Créer un compte Student</h3>
+            <div class="row">
+              <input id="rs_first" placeholder="first_name" />
+              <input id="rs_last" placeholder="last_name" />
+            </div>
+            <input id="rs_email" placeholder="email (ex: bob.demo@example.com)" />
+            <input id="rs_pass" placeholder="password" type="password" />
+            <button id="btnRegisterStudent" class="btn pri">Register + Login Student</button>
+            <p class="muted">Seed: <code>bob.student@example.com / pass</code></p>
+          </div>
         </div>
-        <button id="btnLoginTutor">Login Tutor</button>
-        <pre id="outLoginTutor"></pre>
-      </div>
 
-      <div class="col">
-        <h3>Register (Student)</h3>
-        <div class="row">
-          <input id="rs_first" placeholder="first_name" />
-          <input id="rs_last" placeholder="last_name" />
-        </div>
-        <div class="row">
-          <input id="rs_email" placeholder="email (ex: bob.demo@example.com)" size="36" />
-          <input id="rs_pass" type="password" placeholder="password" />
-        </div>
-        <button id="btnRegisterStudent" class="primary">Register + Login as Student</button>
-        <div class="muted">TIP comptes seedés : <code>bob.student@example.com / pass</code></div>
-        <pre id="outRegisterStudent"></pre>
+        <div class="grid two" style="margin-top:12px">
+          <!-- Tutor login -->
+          <div class="item">
+            <h3>Login Tutor</h3>
+            <input id="lt_email" placeholder="email (ex: alice.tutor@example.com)" />
+            <input id="lt_pass" placeholder="password" type="password" />
+            <button id="btnLoginTutor" class="btn">Login Tutor</button>
+          </div>
 
-        <h3>Login (Student)</h3>
-        <div class="row">
-          <input id="ls_email" placeholder="email" />
-          <input id="ls_pass" type="password" placeholder="password" />
+          <!-- Student login -->
+          <div class="item">
+            <h3>Login Student</h3>
+            <input id="ls_email" placeholder="email (ex: bob.demo@example.com)" />
+            <input id="ls_pass" placeholder="password" type="password" />
+            <button id="btnLoginStudent" class="btn">Login Student</button>
+          </div>
         </div>
-        <button id="btnLoginStudent">Login Student</button>
-        <pre id="outLoginStudent"></pre>
-      </div>
     </div>
   </section>
 
-  <!-- PAGE: DASHBOARD TUTOR -->
-  <section id="pageTutor" class="hidden">
-    <h2>Dashboard — Tutor</h2>
+  <!-- PAGE: TUTOR -->
+  <section id="pageTutor" class="card hidden">
+    <div class="tabs">
+      <div class="tab active" data-tab="t1">Mes offres</div>
+      <div class="tab" data-tab="t2">Créer une offre</div>
+      <div class="tab" data-tab="t3">Bookings reçus</div>
+      <div class="tab" data-tab="t4">Mon profil</div>
+      <div class="tab" data-tab="t5">Avis reçus</div>
+    </div>
 
-    <section>
-      <h3>Mes offres</h3>
-      <button id="btnMyOffers">Charger /offers/mine</button>
-      <div id="myOffersList"></div>
-    </section>
+    <!-- t1: Mes offres (avec créneaux) -->
+    <div id="tab_t1" class="list"></div>
 
-    <section>
-      <h3>Créer une offre</h3>
+    <!-- t2: Créer une offre -->
+    <div id="tab_t2" class="grid hidden">
       <div class="row">
-        <input id="offerSubject" placeholder="subject" />
-        <input id="offerDesc" placeholder="description" size="40" />
-        <input id="offerPrice" placeholder="price_hour" type="number" step="0.01" />
-        <button id="btnCreateOffer" class="primary">Créer</button>
+        <div style="flex:1"><label>Sujet</label><input id="offerSubject" placeholder="Python, Math, Anglais ..." /></div>
+        <div style="flex:2"><label>Description</label><input id="offerDesc" placeholder="Niveau, pédagogie, contenu..." /></div>
+        <div style="width:180px"><label>Prix / h</label><input id="offerPrice" type="number" min="5" step="1" placeholder="30" /></div>
       </div>
-      <pre id="outCreateOffer"></pre>
-    </section>
+      <div class="row">
+        <button id="btnCreateOffer" class="btn pri">➕ Créer l’offre</button>
+        <div id="outCreateOffer" class="muted"></div>
+      </div>
+    </div>
 
-    <section>
-      <h3>Bookings sur mes offres</h3>
-      <button id="btnBookingsOnMyOffers">Charger /bookings/on-my-offers</button>
-      <div id="listBookingsOnMyOffers"></div>
-    </section>
+    <!-- t3: Bookings reçus -->
+    <div id="tab_t3" class="list hidden"></div>
+
+    <!-- t4: Mon profil (tutor) -->
+    <div id="tab_t4" class="hidden">
+      <div class="item">
+        <h3>Profil tuteur</h3>
+        <div class="row">
+          <div style="flex:1">
+            <label>Ville</label><input id="pf_city" placeholder="Paris" />
+          </div>
+          <div style="flex:1">
+            <label>Années d'expérience</label><input id="pf_years" type="number" min="0" step="1" placeholder="2" />
+          </div>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <label>Langues (séparées par des virgules)</label><input id="pf_langs" placeholder="fr, en" />
+          </div>
+        </div>
+        <label>Bio</label>
+        <textarea id="pf_bio" placeholder="Quelques lignes sur ta pédagogie, tes diplômes, tes méthodes…"></textarea>
+        <div class="row" style="margin-top:8px">
+          <button id="btnSaveProfile" class="btn pri">💾 Enregistrer</button>
+          <span id="pf_info" class="muted"></span>
+        </div>
+        <div id="pf_rating" class="muted" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <!-- t5: Avis reçus -->
+    <div id="tab_t5" class="list hidden"></div>
   </section>
 
-  <!-- PAGE: DASHBOARD STUDENT -->
-  <section id="pageStudent" class="hidden">
-    <h2>Dashboard — Student</h2>
+  <!-- PAGE: STUDENT -->
+  <section id="pageStudent" class="card hidden">
+    <div class="tabs">
+      <div class="tab active" data-tab="s1">Offres disponibles</div>
+      <div class="tab" data-tab="s2">Mes bookings</div>
+    </div>
 
-    <section>
-      <h3>Offres disponibles</h3>
-      <div class="row">
-        <input id="offerQ" placeholder="filter q=python (optionnel)" />
-        <button id="btnListOffers">Lister /offers</button>
+    <div id="tab_s1">
+      <div class="item">
+        <div class="row">
+          <div style="flex:2"><label>Recherche</label><input id="offerQ" placeholder="ex: python, math" /></div>
+          <div style="width:160px"><label>Prix min</label><input id="priceMin" type="number" min="0" step="1" placeholder="0" /></div>
+          <div style="width:160px"><label>Prix max</label><input id="priceMax" type="number" min="0" step="1" placeholder="999" /></div>
+          <div style="width:200px">
+            <label>Tri</label>
+            <select id="sortBy">
+              <option value="">—</option>
+              <option value="price_asc">Prix ↑</option>
+              <option value="price_desc">Prix ↓</option>
+            </select>
+          </div>
+          <div class="row" style="align-items:flex-end"><button id="btnListOffers" class="btn">🔍 Chercher</button></div>
+        </div>
       </div>
-      <div id="offersList"></div>
-    </section>
+      <div id="offersList" class="list" style="margin-top:12px"></div>
+    </div>
 
-    <section>
-      <h3>Mes bookings</h3>
-      <button id="btnMyBookings">Charger /bookings/mine</button>
-      <div id="listMyBookings"></div>
-    </section>
+    <div id="tab_s2" class="list hidden"></div>
   </section>
+
+  <div id="toast" class="toast"></div>
+</main>
+
+<div class="footer">© SuperProf — mini projet cours. UI statique (vanilla) + API FastAPI/Postgres</div>
 
 <script>
 const API = "http://localhost:5001";
-let token = "";     // token courant
-let role = "";      // "tutor" | "student"
-let me = null;
+let token = localStorage.getItem("token") || "";
+let role  = localStorage.getItem("role")  || "";
+let me    = null;
 
-const j = x => JSON.stringify(x, null, 2);
-const set = (id, text) => document.getElementById(id).textContent = text;
-const show = id => document.getElementById(id).classList.remove("hidden");
-const hide = id => document.getElementById(id).classList.add("hidden");
+// caches
+const OFFERS_CACHE = new Map();   // offer_id -> offer
+const USER_CACHE   = new Map();   // user_id  -> user public
+const RATING_CACHE = new Map();   // tutor_id -> {avg, count}
+const SLOTS_CACHE  = new Map();   // offer_id -> [slots]
 
-// ---------- NAV ----------
-function go(page){
-  hide("pageAuth"); hide("pageTutor"); hide("pageStudent");
-  if(page==="auth") show("pageAuth");
-  if(page==="tutor") show("pageTutor");
-  if(page==="student") show("pageStudent");
+// helpers
+const $ = s => document.querySelector(s);
+const el = (t,c) => { const d=document.createElement(t); if(c) d.className=c; return d; };
+function showToast(msg, type="info"){
+  const t=$("#toast");
+  t.textContent=msg; t.style.display="block";
+  t.style.borderColor = type==="error" ? "#7f1d1d" : (type==="ok" ? "#14532d" : "#1e3a8a");
+  t.style.background = type==="error" ? "linear-gradient(180deg, #1b0a0a 0%, #120606 100%)"
+                    : type==="ok"    ? "linear-gradient(180deg, #0a1b12 0%, #07140e 100%)"
+                                      : "linear-gradient(180deg, #0d1938 0%, #0a132b 100%)";
+  setTimeout(()=> t.style.display="none", 2200);
 }
-
-// ---------- AUTH API ----------
-async function registerApi(payload){
-  const r = await fetch(`${API}/auth/register`, {
-    method:"POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(payload)
+function setWho(){
+  $("#who").textContent = me ? `${me.role} — ${me.email}` : "non connecté";
+}
+function go(pageSel){
+  ["#pageAuth","#pageTutor","#pageStudent"].forEach(s=>$(s).classList.add("hidden"));
+  $(pageSel).classList.remove("hidden");
+}
+function switchTabs(scopePrefix, tabId){
+  document.querySelectorAll(`${scopePrefix} .tab`).forEach(t=>t.classList.remove("active"));
+  [...document.querySelectorAll(`${scopePrefix} [id^="tab_"]`)].forEach(p=>p.classList.add("hidden"));
+  document.querySelector(`${scopePrefix} .tab[data-tab="${tabId}"]`)?.classList.add("active");
+  $(`#tab_${tabId}`).classList.remove("hidden");
+}
+async function apiJSON(path, opts={}){
+  const r = await fetch(`${API}${path}`, {
+    headers: { "Content-Type":"application/json", ...(token? {Authorization:`Bearer ${token}`} : {}) },
+    ...opts
   });
-  const data = await r.json();
-  return {ok: r.ok, data};
+  let data=null; try{ data=await r.json(); }catch{}
+  return {ok:r.ok, status:r.status, data};
 }
-async function loginApi(email, password){
-  const r = await fetch(`${API}/auth/token`, {
-    method:"POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({email, password})
-  });
-  const data = await r.json();
-  return {ok: r.ok, data};
+function fmtDate(s){
+  try{ const d=new Date(s); return d.toLocaleString(); }catch{ return s; }
 }
-async function meApi(){
-  const r = await fetch(`${API}/auth/me`, { headers: {"Authorization": `Bearer ${token}`}});
-  return {ok: r.ok, data: await r.json()};
+function stars(avg,count){
+  if(avg==null) return `<span class="muted">—</span>`;
+  const full = Math.round(avg*2)/2; // demi-étoiles si besoin (visuel simple)
+  const on = "★".repeat(Math.floor(full));
+  const half = (full%1)? "½" : "";
+  const off = "☆".repeat(Math.max(0,5-Math.ceil(full)));
+  return `<span class="stars" title="${avg.toFixed(2)} / 5 (${count||0} avis)">${on}${half}${off}</span>`;
+}
+function explainErrorPayload(data){
+  if(!data) return "Erreur inconnue";
+  // FastAPI 422: { detail: [ {loc:..., msg:"...", type:"..."} , ... ] }
+  if(Array.isArray(data.detail)){
+    return data.detail.map(d => d.msg || JSON.stringify(d)).join(" | ");
+  }
+  if(typeof data.detail === "string") return data.detail;
+  try { return JSON.stringify(data); } catch { return String(data); }
 }
 
-// ---------- UI STATE ----------
+// ---------- AUTH ----------
+async function registerApi(payload){ return apiJSON("/auth/register",{method:"POST",body:JSON.stringify(payload)}); }
+async function loginApi(email,password){ return apiJSON("/auth/token",{method:"POST",body:JSON.stringify({email,password})}); }
+async function meApi(){ return apiJSON("/auth/me"); }
+
 function afterLogin(_token){
-  token = _token;
-  document.getElementById("btnLogout").classList.remove("hidden");
-}
-function setWhoLabel(){
-  const who = document.getElementById("who");
-  if(!me){ who.textContent = "not logged"; return; }
-  who.textContent = `${me.role} — ${me.email}`;
+  token=_token; localStorage.setItem("token",token);
+  $("#btnLogout").classList.remove("hidden");
 }
 async function resolveRoleAndRoute(){
   const r = await meApi();
-  if(!r.ok){ alert("Impossible de récupérer /auth/me"); return; }
-  me = r.data;
-  role = me.role; // "tutor" | "student"
-  setWhoLabel();
-  if(role === "tutor"){ go("tutor"); }
-  else { go("student"); }
+  if(!r.ok){ showToast("Impossible d’obtenir /auth/me","error"); return; }
+  me=r.data; role=me.role; localStorage.setItem("role",role);
+  setWho();
+  if(role==="tutor"){
+    go("#pageTutor");
+    await loadMyOffers();
+    await loadBookingsOnMyOffers();
+    await loadTutorProfile();
+    await loadTutorReviews();
+  } else {
+    go("#pageStudent");
+    await refreshOffersList();
+    await loadMyBookings();
+  }
 }
 
-// ---------- AUTH PAGE HANDLERS ----------
-document.getElementById("btnLogout").onclick = () => {
-  token = ""; role=""; me=null; setWhoLabel(); go("auth");
+// ---------- LOGOUT ----------
+$("#btnLogout").onclick = ()=>{
+  token=""; role=""; me=null; localStorage.removeItem("token"); localStorage.removeItem("role");
+  setWho();
+  // purge champs/outputs
+  ["rt_first","rt_last","rt_email","rt_pass","rs_first","rs_last","rs_email","rs_pass",
+   "lt_email","lt_pass","ls_email","ls_pass","offerSubject","offerDesc","offerPrice","offerQ","priceMin","priceMax",
+   "pf_city","pf_years","pf_langs","pf_bio"].forEach(id=>{ const x=$("#"+id); if(x) x.value=""; });
+  ["#outCreateOffer","#offersList","#tab_s2","#tab_t1","#tab_t3","#tab_t5"].forEach(s=>{ const n=$(s); if(n) n.innerHTML=""; });
+  $("#pf_info").textContent=""; $("#pf_rating").textContent="";
+  OFFERS_CACHE.clear(); USER_CACHE.clear(); RATING_CACHE.clear(); SLOTS_CACHE.clear();
+  go("#pageAuth"); showToast("Déconnecté");
 };
 
-document.getElementById("btnRegisterTutor").onclick = async () => {
-  const payload = {
-    first_name: document.getElementById("rt_first").value || "Alice",
-    last_name:  document.getElementById("rt_last").value  || "Tutor",
-    email:      document.getElementById("rt_email").value || "alice.demo@example.com",
-    password:   document.getElementById("rt_pass").value  || "pass",
-    role: "tutor"
-  };
-  const {ok, data} = await registerApi(payload);
-  set("outRegisterTutor", j(data));
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); }
-};
+// ---------- TABS
+document.querySelectorAll('#pageTutor .tab').forEach(t => t.onclick = ()=> switchTabs('#pageTutor', t.getAttribute('data-tab')));
+document.querySelectorAll('#pageStudent .tab').forEach(t => t.onclick = ()=> switchTabs('#pageStudent', t.getAttribute('data-tab')));
 
-document.getElementById("btnLoginTutor").onclick = async () => {
-  const email = document.getElementById("lt_email").value || "alice.tutor@example.com";
-  const pass  = document.getElementById("lt_pass").value  || "pass";
-  const {ok, data} = await loginApi(email, pass);
-  set("outLoginTutor", j(data));
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); }
-};
+// ---------- ENRICH helpers ----------
+async function getUserPublic(userId){
+  if(USER_CACHE.has(userId)) return USER_CACHE.get(userId);
+  const r = await fetch(`${API}/users/${userId}`, { headers: token? {Authorization:`Bearer ${token}`} : {} });
+  if(r.ok){
+    const u = await r.json();
+    USER_CACHE.set(userId, u);
+    return u;
+  }
+  return null;
+}
+function fullName(u){
+  if(!u) return "";
+  const fn = (u.first_name||"").trim();
+  const ln = (u.last_name||"").trim();
+  const both = `${fn} ${ln}`.trim();
+  return both || (u.email||"");
+}
+async function getTutorRating(tutorId){
+  if(RATING_CACHE.has(tutorId)) return RATING_CACHE.get(tutorId);
+  // summary réel: /reviews/of-tutor/{tutor_id}/summary  -> {rating_count, rating_avg}
+  const r = await apiJSON(`/reviews/of-tutor/${tutorId}/summary`);
+  if(r.ok){
+    const data = { avg: r.data?.rating_avg ?? null, count: r.data?.rating_count ?? 0 };
+    RATING_CACHE.set(tutorId, data);
+    return data;
+  }
+  return {avg:null, count:0};
+}
+async function getOfferSlots(offerId){
+  if(SLOTS_CACHE.has(offerId)) return SLOTS_CACHE.get(offerId);
+  // route correcte: /timeslots/of-offer/{offer_id}
+  const r = await apiJSON(`/timeslots/of-offer/${offerId}`);
+  if(r.ok){ SLOTS_CACHE.set(offerId, r.data || []); return r.data || []; }
+  return [];
+}
 
-document.getElementById("btnRegisterStudent").onclick = async () => {
-  const payload = {
-    first_name: document.getElementById("rs_first").value || "Bob",
-    last_name:  document.getElementById("rs_last").value  || "Student",
-    email:      document.getElementById("rs_email").value || "bob.demo@example.com",
-    password:   document.getElementById("rs_pass").value  || "pass",
-    role: "student"
-  };
-  const {ok, data} = await registerApi(payload);
-  set("outRegisterStudent", j(data));
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); }
-};
+async function getSlotFor(offerId, timeslotId){
+  if (!timeslotId) return null;
+  const list = await getOfferSlots(offerId);
+  return list.find(s => s.id === timeslotId) || null;
+}
 
-document.getElementById("btnLoginStudent").onclick = async () => {
-  const email = document.getElementById("ls_email").value || "bob.student@example.com";
-  const pass  = document.getElementById("ls_pass").value  || "pass";
-  const {ok, data} = await loginApi(email, pass);
-  set("outLoginStudent", j(data));
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); }
-};
+function fmtDate(dtIso){
+  try {
+    const d = new Date(dtIso);
+    return d.toLocaleString();
+  } catch { return ""; }
+}
 
-// ---------- TUTOR DASHBOARD ----------
-document.getElementById("btnMyOffers").onclick = async () => {
-  const r = await fetch(`${API}/offers/mine`, { headers: {"Authorization": `Bearer ${token}`}});
-  const data = await r.json();
-  const root = document.getElementById("myOffersList");
-  root.innerHTML = "";
-  if(!Array.isArray(data)){ root.innerHTML = `<pre>${j(data)}</pre>`; return; }
-  if(data.length===0){ root.innerHTML = `<div class="muted">Aucune offre.</div>`; return; }
-  data.forEach(o => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
+// ---------- TUTOR: Mes offres (avec créneaux + ajout) ----------
+async function renderOfferCardForTutor(o){
+  const meUser = await getUserPublic(o.tutor_id).catch(()=>null);
+  const summary = await getTutorRating(o.tutor_id);
+  const it=el("div","item");
+  it.innerHTML=`
+    <div class="row" style="justify-content:space-between; align-items:center">
       <h4>${o.subject}</h4>
-      <div class="muted">${o.description || ""}</div>
-      <div>Price/hour: <b>${o.price_hour}</b></div>
-      <div class="muted">offer_id: <code>${o.id}</code></div>
-    `;
-    root.appendChild(div);
-  });
-};
-
-document.getElementById("btnCreateOffer").onclick = async () => {
-  const subject = document.getElementById("offerSubject").value || "Python";
-  const description = document.getElementById("offerDesc").value || "Bases -> avancé";
-  const price_hour = parseFloat(document.getElementById("offerPrice").value || "30");
-  const r = await fetch(`${API}/offers/`, {
-    method: "POST",
-    headers: {
-      "Content-Type":"application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify({ subject, description, price_hour })
-  });
-  set("outCreateOffer", j(await r.json()));
-};
-
-document.getElementById("btnBookingsOnMyOffers").onclick = async () => {
-  const r = await fetch(`${API}/bookings/list/on-my-offers`, {
-    headers: { "Authorization": `Bearer ${token}` }
-  });
-  const data = await r.json();
-  const root = document.getElementById("listBookingsOnMyOffers");
-  root.innerHTML = "";
-  if (!Array.isArray(data)) { root.innerHTML = `<pre>${j(data)}</pre>`; return; }
-  if (data.length === 0) { root.innerHTML = `<div class="muted">Aucun booking sur vos offres.</div>`; return; }
-
-  data.forEach(b => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <div><b>booking_id:</b> <code>${b.id}</code></div>
-      <div><b>offer_id:</b> <code>${b.offer_id}</code></div>
-      <div><b>student_id:</b> <code>${b.student_id}</code></div>
-      <div><b>status:</b> ${b.status}</div>
-      <div class="row" style="margin-top:6px">
-        <button data-action="ACCEPT">ACCEPT</button>
-        <button data-action="REJECT">REJECT</button>
-        <pre class="resp muted"></pre>
+      <span class="pill">${o.price_hour} €/h</span>
+    </div>
+    <div class="muted">${o.description || ""}</div>
+    <div class="row" style="gap:8px">
+      ${meUser ? `<span class="pill">Par ${fullName(meUser)}</span>` : ``}
+      <span class="pill">${stars(summary.avg, summary.count)}</span>
+    </div>
+    <div class="row" style="margin-top:8px; align-items:flex-end">
+      <div style="flex:1">
+        <label>Créer un créneau</label>
+        <div class="row">
+          <input class="slotStart" type="datetime-local" />
+          <input class="slotEnd"   type="datetime-local" />
+          <button class="btn pri addSlot">➕</button>
+        </div>
+        <div class="muted sresp"></div>
       </div>
+    </div>
+    <div class="list slots"></div>
+  `;
+  // charger slots
+  const slotRoot = it.querySelector(".slots");
+  const sresp = it.querySelector(".sresp");
+  async function refreshSlots(){
+    slotRoot.innerHTML="";
+    const slots = await getOfferSlots(o.id);
+    if(!slots || slots.length===0){ slotRoot.innerHTML=`<div class="muted">Aucun créneau.</div>`; return; }
+    for(const s of slots){
+      const d = el("div","row");
+      d.innerHTML = `<span class="pill">${fmtDate(s.start_utc)}</span><span class="pill">→ ${fmtDate(s.end_utc)}</span>`;
+      slotRoot.appendChild(d);
+    }
+  }
+  it.querySelector(".addSlot").onclick = async ()=>{
+    const start = it.querySelector(".slotStart").value;
+    const end   = it.querySelector(".slotEnd").value;
+    if(!start || !end){ sresp.textContent="Merci de renseigner les deux champs."; return; }
+    const r = await apiJSON(`/timeslots/`, {method:"POST", body: JSON.stringify({
+      offer_id: o.id, start_utc: new Date(start).toISOString(), end_utc: new Date(end).toISOString()
+    })});
+    if(r.ok){
+      showToast("Créneau ajouté ✅","ok"); SLOTS_CACHE.delete(o.id); await refreshSlots();
+      sresp.textContent=""; it.querySelector(".slotStart").value=""; it.querySelector(".slotEnd").value="";
+    } else {
+      sresp.textContent = r.data?.detail || "Erreur";
+      showToast(r.data?.detail || "Erreur ajout créneau","error");
+    }
+  };
+  await refreshSlots();
+  return it;
+}
+async function loadMyOffers(){
+  const root=$("#tab_t1");
+  root.innerHTML = "";
+  for(let i=0;i<3;i++){ const s=el("div","item skeleton"); s.style.height="120px"; root.appendChild(s); }
+  const {ok,data}=await apiJSON("/offers/mine");
+  root.innerHTML="";
+  if(!ok){ root.textContent = data?.detail || "Erreur"; return; }
+  if(!Array.isArray(data) || data.length===0){ root.innerHTML = `<div class="muted">Aucune offre.</div>`; return; }
+  for (const o of data){
+    OFFERS_CACHE.set(o.id,o);
+    root.appendChild(await renderOfferCardForTutor(o));
+  }
+}
+document.querySelector('#pageTutor .tab[data-tab="t1"]').addEventListener("click", loadMyOffers);
+
+// ---------- TUTOR: Créer une offre ----------
+$("#btnCreateOffer").onclick = async ()=>{
+  const subject=$("#offerSubject").value || "Python";
+  const description=$("#offerDesc").value || "Bases -> avancé";
+  const price_hour=parseFloat($("#offerPrice").value || "30");
+  const {ok,data}=await apiJSON("/offers/", {method:"POST", body: JSON.stringify({subject,description,price_hour})});
+  $("#outCreateOffer").textContent = ok ? "✅ Offre créée" : (data?.detail || "Erreur");
+  if(ok){ showToast("Offre créée ✅","ok"); await loadMyOffers(); }
+  else { showToast(data?.detail || "Erreur création","error"); }
+};
+
+// ---------- TUTOR: Bookings reçus ----------
+async function loadBookingsOnMyOffers(){
+  const root=$("#tab_t3");
+  root.innerHTML="";
+  for(let i=0;i<3;i++){ const s=el("div","item skeleton"); s.style.height="90px"; root.appendChild(s); }
+
+  // cache mes offres (sujet/price)
+  const mine = await apiJSON("/offers/mine");
+  if(mine.ok && Array.isArray(mine.data)){ mine.data.forEach(o=>OFFERS_CACHE.set(o.id,o)); }
+
+  // bookings sur mes offres
+  const {ok,data}=await apiJSON("/bookings/list/on-my-offers");
+  root.innerHTML="";
+  if(!ok){ root.textContent = data?.detail || "Erreur"; return; }
+  if(!Array.isArray(data) || data.length===0){ root.innerHTML=`<div class="muted">Aucun booking pour l’instant.</div>`; return; }
+
+  for(const b of data){
+    const offer = OFFERS_CACHE.get(b.offer_id);
+    const student = await getUserPublic(b.student_id);
+    const slot = await getSlotFor(b.offer_id, b.timeslot_id);
+
+    const subj  = offer?.subject || "Offre";
+    const desc  = offer?.description || "";
+    const price = (offer?.price_hour!=null) ? `${offer.price_hour} €/h` : "";
+    const studentLabel = fullName(student);
+    const slotLabel = slot ? `${fmtDate(slot.start_utc)} → ${fmtDate(slot.end_utc)}` : "—";
+
+    const statusClass = b.status==='ACCEPTED'?'ok':(b.status==='REJECTED'?'warn':'');
+    const it=el("div","item");
+    it.innerHTML = `
+      <h4>Demande pour « ${subj} » <span class="pill ${statusClass}">${b.status}</span></h4>
+      <div class="muted">${desc}</div>
+      <div class="row" style="gap:8px; margin-top:4px">
+        ${price ? `<span class="pill">Tarif: ${price}</span>` : ``}
+        ${studentLabel ? `<span class="pill">Étudiant: ${studentLabel}</span>` : ``}
+        <span class="pill">Créneau: ${slotLabel}</span>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn pri" data-act="ACCEPT">ACCEPTER</button>
+        <button class="btn danger" data-act="REJECT">REJETER</button>
+      </div>
+      <div class="muted resp"></div>
     `;
-    const resp = div.querySelector(".resp");
-    div.querySelectorAll("button[data-action]").forEach(btn => {
-      btn.onclick = async () => {
-        const action = btn.getAttribute("data-action");
-        const r2 = await fetch(`${API}/bookings/${b.id}/${action}`, {
-          method: "POST",
-          headers: { "Authorization": `Bearer ${token}` }
-        });
-        resp.textContent = j(await r2.json());
+    it.querySelectorAll('button[data-act]').forEach(btn=>{
+      btn.onclick = async ()=>{
+        const act=btn.getAttribute("data-act");
+        const r=await apiJSON(`/bookings/${b.id}/${act}`,{method:"POST"});
+        it.querySelector(".resp").textContent = r.ok ? "✅ statut mis à jour" : (r.data?.detail || "Erreur");
+        if(r.ok){ showToast(`Booking ${act} ✅`,"ok"); await loadBookingsOnMyOffers(); }
+        else { showToast(r.data?.detail || "Erreur action","error"); }
       };
     });
-    root.appendChild(div);
-  });
-};
+    root.appendChild(it);
+  }
+}
+document.querySelector('#pageTutor .tab[data-tab="t3"]').addEventListener("click", loadBookingsOnMyOffers);
 
-// ---------- STUDENT DASHBOARD ----------
-document.getElementById("btnListOffers").onclick = async () => {
-  const q = document.getElementById("offerQ").value.trim();
-  const url = q ? `${API}/offers/?q=${encodeURIComponent(q)}` : `${API}/offers/`;
-  const r = await fetch(url);
-  const data = await r.json();
-  const root = document.getElementById("offersList");
-  root.innerHTML = "";
-  if(!Array.isArray(data)){ root.innerHTML = `<pre>${j(data)}</pre>`; return; }
-  if(data.length===0){ root.innerHTML = `<div class="muted">Aucune offre.</div>`; return; }
-  data.forEach(o => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <h4>${o.subject}</h4>
+// ---------- TUTOR: Profil ----------
+async function loadTutorProfile(){
+  const city = $("#pf_city"), yrs=$("#pf_years"), langs=$("#pf_langs"), bio=$("#pf_bio"), info=$("#pf_info"), rate=$("#pf_rating");
+  info.textContent="Chargement…";
+  // GET /tutors/me/profile
+  const r = await apiJSON("/tutors/me/profile");
+  if(r.ok && r.data){
+    city.value = r.data.city || "";
+    yrs.value  = r.data.years_exp ?? "";
+    langs.value= Array.isArray(r.data.languages)? r.data.languages.join(", ") : (r.data.languages||"");
+    bio.value  = r.data.bio || "";
+    info.textContent="Profil chargé.";
+  } else {
+    info.textContent = "Aucun profil encore créé.";
+  }
+  // rating global
+  if(me?.id){
+    const s = await getTutorRating(me.id);
+    rate.innerHTML = `Note moyenne: ${stars(s.avg, s.count)}`;
+  }
+}
+async function saveTutorProfile(){
+  const city = $("#pf_city")?.value.trim();
+  const years = $("#pf_years")?.value.trim();
+  const langsRaw = $("#pf_langs")?.value.trim();
+  const bio = $("#pf_bio")?.value.trim();
+
+  const payload = {};
+  if(city) payload.city = city;
+  if(years) payload.years_exp = parseInt(years);
+  if(langsRaw) payload.languages = langsRaw.split(",").map(s=>s.trim()).filter(Boolean);
+  if(bio) payload.bio = bio;
+
+  const r = await apiJSON("/tutors/me/profile", {
+    method:"PUT",
+    body: JSON.stringify(payload)
+  });
+
+  const msgNode = $("#pf_info");
+  if(r.ok){
+    msgNode.textContent = "✅ Profil enregistré";
+    showToast("Profil enregistré ✅", "ok");
+    if(me?.id){
+      const s = await getTutorRating(me.id);
+      $("#pf_rating").innerHTML = `Note moyenne: ${stars(s.avg, s.count)}`;
+    }
+  } else {
+    const msg = explainErrorPayload(r.data);
+    msgNode.textContent = msg;
+    showToast(msg, "error");
+  }
+}
+$("#btnSaveProfile").onclick = saveTutorProfile;
+document.querySelector('#pageTutor .tab[data-tab="t4"]').addEventListener("click", loadTutorProfile);
+
+// ---------- TUTOR: Avis reçus ----------
+async function loadTutorReviews(){
+  const root=$("#tab_t5");
+  root.innerHTML="";
+  for(let i=0;i<3;i++){ const s=el("div","item skeleton"); s.style.height="70px"; root.appendChild(s); }
+  if(!me?.id){ root.innerHTML=`<div class="muted">Profil inconnu.</div>`; return; }
+  // route correcte
+  const r = await apiJSON(`/reviews/of-tutor/${me.id}`);
+  root.innerHTML="";
+  if(!r.ok){ root.textContent = r.data?.detail || "Erreur"; return; }
+  const list = Array.isArray(r.data)? r.data : [];
+  if(list.length===0){ root.innerHTML=`<div class="muted">Aucun avis reçu pour l’instant.</div>`; return; }
+  for(const rev of list){
+    const it=el("div","item");
+    it.innerHTML = `
+      <div class="row" style="justify-content:space-between">
+        <div>${stars(rev.rating, 1)}</div>
+        <div class="muted">${rev.created_at ? fmtDate(rev.created_at) : ""}</div>
+      </div>
+      <div>${(rev.comment||"").replace(/</g,"&lt;")}</div>
+    `;
+    root.appendChild(it);
+  }
+}
+document.querySelector('#pageTutor .tab[data-tab="t5"]').addEventListener("click", loadTutorReviews);
+
+// ---------- STUDENT: Offres (liste + notes + créneaux) ----------
+async function refreshOffersList(){
+  const root=$("#offersList");
+  root.innerHTML="";
+  for(let i=0;i<6;i++){ const s=el("div","item skeleton"); s.style.height="122px"; root.appendChild(s); }
+  const q=$("#offerQ").value.trim();
+  const url=q? `/offers/?q=${encodeURIComponent(q)}` : `/offers/`;
+  const {ok,data}=await apiJSON(url);
+  root.innerHTML="";
+  if(!ok){ root.textContent = data?.detail || "Erreur"; return; }
+  if(!Array.isArray(data)){ root.textContent = "Réponse inattendue"; return; }
+
+  const min=parseFloat($("#priceMin").value || "0");
+  const max=parseFloat($("#priceMax").value || "999999");
+  let list=data.filter(o => (o.price_hour ?? 0) >= min && (o.price_hour ?? 0) <= max);
+  const sortBy=$("#sortBy").value;
+  if(sortBy==="price_asc") list.sort((a,b)=> (a.price_hour??0)-(b.price_hour??0));
+  if(sortBy==="price_desc") list.sort((a,b)=> (b.price_hour??0)-(a.price_hour??0));
+
+  if(list.length===0){ root.innerHTML=`<div class="muted">Aucune offre.</div>`; return; }
+
+  for(const o of list){
+    OFFERS_CACHE.set(o.id,o);
+    const tutor = await getUserPublic(o.tutor_id);
+    const rating = await getTutorRating(o.tutor_id);
+
+    const it=el("div","item");
+    it.innerHTML=`
+      <div class="row" style="justify-content:space-between; align-items:center">
+        <h4>${o.subject}</h4>
+        <span class="pill">${o.price_hour} €/h</span>
+      </div>
       <div class="muted">${o.description || ""}</div>
-      <div>Price/hour: <b>${o.price_hour}</b></div>
-      <div class="muted">offer_id: <code>${o.id}</code></div>
-      <button data-id="${o.id}">Book this</button>
-      <pre class="resp muted"></pre>
+      <div class="row" style="gap:10px">
+        ${tutor ? `<span class="pill">Proposé par ${fullName(tutor)}</span>` : ``}
+        <span class="pill">${stars(rating.avg, rating.count)}</span>
+      </div>
+      <div class="row" style="margin-top:8px; gap:8px">
+        <button class="btn pri book">Demander un cours</button>
+        <button class="btn ghost toggleSlots">Voir les créneaux</button>
+        <div class="muted resp"></div>
+      </div>
+      <div class="list slots hidden"></div>
     `;
-    const btn = div.querySelector("button");
-    const resp = div.querySelector(".resp");
-    btn.onclick = async () => {
-      const r = await fetch(`${API}/bookings/`, {
-        method:"POST",
-        headers: {
-          "Content-Type":"application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ offer_id: o.id })
-      });
-      resp.textContent = j(await r.json());
+    const resp = it.querySelector(".resp");
+    it.querySelector(".book").onclick = async ()=>{
+      const r=await apiJSON("/bookings/", {method:"POST", body: JSON.stringify({offer_id:o.id})});
+      resp.textContent = r.ok ? "✅ demande envoyée" : (r.data?.detail || "Erreur");
+      showToast(r.ok ? "Booking créé ✅" : (r.data?.detail || "Erreur booking"), r.ok?"ok":"error");
     };
-    root.appendChild(div);
-  });
-};
+    const slotsDiv = it.querySelector(".slots");
+    it.querySelector(".toggleSlots").onclick = async ()=>{
+      if(!slotsDiv.classList.contains("hidden")){ slotsDiv.classList.add("hidden"); slotsDiv.innerHTML=""; return; }
+      slotsDiv.classList.remove("hidden"); slotsDiv.innerHTML="";
+      const skeleton = el("div","item skeleton"); skeleton.style.height="56px"; slotsDiv.appendChild(skeleton);
+      const slots = await getOfferSlots(o.id);
+      slotsDiv.innerHTML="";
+      if(!slots || slots.length===0){ slotsDiv.innerHTML=`<div class="muted">Aucun créneau publié.</div>`; return; }
+      for(const s of slots){
+        const row = el("div","row");
+        row.style.alignItems="center";
+        row.innerHTML = `
+          <span class="pill">${fmtDate(s.start_utc)}</span>
+          <span class="pill">→ ${fmtDate(s.end_utc)}</span>
+          <button class="btn pri reserve">Réserver ce créneau</button>
+          <span class="muted sresp"></span>
+        `;
+        row.querySelector(".reserve").onclick = async ()=>{
+          // 1) tentative route dédiée
+          let r = await apiJSON(`/bookings/slot/${s.id}`, {method:"POST"});
+          // 2) fallback si 404: on passe par POST /bookings/ avec un corps enrichi
+          if(r.status === 404){
+            r = await apiJSON(`/bookings/`, {
+              method:"POST",
+              body: JSON.stringify({ offer_id: o.id, timeslot_id: s.id })
+            });
+          }
+          const out = row.querySelector(".sresp");
+          out.textContent = r.ok ? "✅ réservé" : (r.data?.detail || "Erreur");
+          showToast(r.ok ? "Réservation créneau ✅" : (r.data?.detail || "Erreur réservation"), r.ok?"ok":"error");
+        };
+        slotsDiv.appendChild(row);
+      }
+    };
+    root.appendChild(it);
+  }
+}
+$("#btnListOffers").onclick = refreshOffersList;
+document.querySelector('#pageStudent .tab[data-tab="s1"]').addEventListener("click", refreshOffersList);
 
-document.getElementById("btnMyBookings").onclick = async () => {
-  const r = await fetch(`${API}/bookings/list/mine`, {
-    headers: { "Authorization": `Bearer ${token}` }
-  });
-  const data = await r.json();
-  const root = document.getElementById("listMyBookings");
-  root.innerHTML = "";
-  if (!Array.isArray(data)) { root.innerHTML = `<pre>${j(data)}</pre>`; return; }
-  if (data.length === 0) { root.innerHTML = `<div class="muted">Aucun booking.</div>`; return; }
+// ---------- STUDENT: Mes bookings (avis si ACCEPTED) ----------
+async function loadMyBookings(){
+  const root=$("#tab_s2");
+  root.innerHTML="";
+  for(let i=0;i<3;i++){ const s=el("div","item skeleton"); s.style.height="90px"; root.appendChild(s); }
+  const {ok,data}=await apiJSON("/bookings/list/mine");
+  root.innerHTML="";
+  if(!ok){ root.textContent = data?.detail || "Erreur"; return; }
+  if(!Array.isArray(data) || data.length===0){ root.innerHTML=`<div class="muted">Aucun booking.</div>`; return; }
 
-  data.forEach(b => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <div><b>booking_id:</b> <code>${b.id}</code></div>
-      <div><b>offer_id:</b> <code>${b.offer_id}</code></div>
-      <div><b>status:</b> ${b.status}</div>
+  for(const b of data){
+    // offre + tuteur
+    let offer = OFFERS_CACHE.get(b.offer_id);
+    if(!offer){
+      const all = await apiJSON(`/offers/`);
+      if(all.ok && Array.isArray(all.data)){ all.data.forEach(o=>OFFERS_CACHE.set(o.id,o)); }
+      offer = OFFERS_CACHE.get(b.offer_id);
+    }
+    const tutor = offer ? await getUserPublic(offer.tutor_id) : null;
+    const slot  = await getSlotFor(b.offer_id, b.timeslot_id);
+
+    const subj  = offer?.subject || "Offre";
+    const desc  = offer?.description || "";
+    const price = (offer?.price_hour!=null) ? `${offer.price_hour} €/h` : "";
+    const tutorLabel = fullName(tutor);
+    const slotLabel = slot ? `${fmtDate(slot.start_utc)} → ${fmtDate(slot.end_utc)}` : "—";
+    const statusClass = b.status==='ACCEPTED'?'ok':(b.status==='REJECTED'?'warn':'');
+
+    const it=el("div","item");
+    it.innerHTML=`
+      <h4>Votre demande pour « ${subj} » <span class="pill ${statusClass}">${b.status}</span></h4>
+      <div class="muted">${desc}</div>
+      <div class="row" style="gap:8px; margin-top:4px">
+        ${price ? `<span class="pill">Tarif: ${price}</span>` : ``}
+        ${tutorLabel ? `<span class="pill">Tuteur: ${tutorLabel}</span>` : ``}
+        <span class="pill">Créneau: ${slotLabel}</span>
+      </div>
+      ${b.status==='ACCEPTED' ? `
+        <div class="row" style="gap:8px; margin-top:10px; align-items:flex-start">
+          <select class="rvRating">
+            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+            <option value="4">⭐⭐⭐⭐ (4)</option>
+            <option value="3">⭐⭐⭐ (3)</option>
+            <option value="2">⭐⭐ (2)</option>
+            <option value="1">⭐ (1)</option>
+          </select>
+          <input class="rvComment" placeholder="Laisser un avis (optionnel)" />
+          <button class="btn pri rvSend">Envoyer l’avis</button>
+          <div class="muted rvResp"></div>
+        </div>
+      ` : ``}
     `;
-    root.appendChild(div);
-  });
-};
 
-// ---------- START ----------
-go("auth"); // start on auth page
+    // handler avis (reviews) — route correcte
+    it.querySelector(".rvSend")?.addEventListener("click", async ()=>{
+      const rating = parseInt(it.querySelector(".rvRating").value || "5");
+      const comment = it.querySelector(".rvComment").value || "";
+      if(!offer?.tutor_id){ showToast("Tuteur inconnu pour cette offre","error"); return; }
+      const r = await apiJSON(`/reviews/for/${offer.tutor_id}`, {
+        method:"POST", body: JSON.stringify({ rating, comment })
+      });
+      const out = it.querySelector(".rvResp");
+      out.textContent = r.ok ? "✅ Avis envoyé" : (r.data?.detail || "Erreur");
+      showToast(r.ok ? "Avis envoyé ✅" : (r.data?.detail || "Erreur avis"), r.ok?"ok":"error");
+    });
+
+    root.appendChild(it);
+  }
+}
+document.querySelector('#pageStudent .tab[data-tab="s2"]').addEventListener("click", loadMyBookings);
+
+// ---------- STARTUP ----------
+async function boot(){
+  setWho();
+  if(token){
+    const r=await meApi();
+    if(r.ok){ me=r.data; role=me.role; $("#btnLogout").classList.remove("hidden"); setWho();
+      if(role==="tutor"){ go("#pageTutor"); await loadMyOffers(); await loadBookingsOnMyOffers(); await loadTutorProfile(); await loadTutorReviews(); }
+      else { go("#pageStudent"); await refreshOffersList(); await loadMyBookings(); }
+    } else {
+      localStorage.removeItem("token"); localStorage.removeItem("role");
+      token=""; role=""; me=null; setWho(); go("#pageAuth");
+    }
+  } else {
+    go("#pageAuth");
+  }
+}
+// AUTH buttons
+document.getElementById("btnRegisterTutor")?.addEventListener("click", async ()=>{
+  const payload = {
+    first_name: $("#rt_first").value || "Alice",
+    last_name:  $("#rt_last").value  || "Tutor",
+    email:      $("#rt_email").value || "alice.demo@example.com",
+    password:   $("#rt_pass").value  || "pass",
+    role: "tutor"
+  };
+  const {ok,data}=await registerApi(payload);
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte tutor créé ✅","ok"); }
+  else { showToast(data?.detail || "Erreur register","error"); }
+});
+document.getElementById("btnRegisterStudent")?.addEventListener("click", async ()=>{
+  const payload = {
+    first_name: $("#rs_first").value || "Bob",
+    last_name:  $("#rs_last").value  || "Student",
+    email:      $("#rs_email").value || "bob.demo@example.com",
+    password:   $("#rs_pass").value  || "pass",
+    role: "student"
+  };
+  const {ok,data}=await registerApi(payload);
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte student créé ✅","ok"); }
+  else { showToast(data?.detail || "Erreur register","error"); }
+});
+document.getElementById("btnLoginTutor")?.addEventListener("click", async ()=>{
+  const email=$("#lt_email").value || "alice.tutor@example.com";
+  const pass =$("#lt_pass").value  || "pass";
+  const {ok,data}=await loginApi(email,pass);
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Connecté (tutor) ✅","ok"); }
+  else { showToast(data?.detail || "Erreur login","error"); }
+});
+document.getElementById("btnLoginStudent")?.addEventListener("click", async ()=>{
+  const email=$("#ls_email").value || "bob.student@example.com";
+  const pass =$("#ls_pass").value  || "pass";
+  const {ok,data}=await loginApi(email,pass);
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Connecté (student) ✅","ok"); }
+  else { showToast(data?.detail || "Erreur login","error"); }
+});
+
+boot();
 </script>
 </body>
 </html>

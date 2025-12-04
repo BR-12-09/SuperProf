@@ -10,6 +10,9 @@ from app.routers.user import user_router
 from app.routers.offer import offer_router
 from app.routers.booking import booking_router
 from app.routers.auth import auth_router
+from app.routers.tutor_profiles import router as tutor_profiles_router
+from app.routers.reviews import router as reviews_router
+from app.routers.timeslots import router as timeslots_router
 from app.database import BaseSQL, engine
 
 def wait_for_db(max_retries: int = 60, delay_sec: float = 1.0):
@@ -49,3 +52,6 @@ app.include_router(user_router)
 app.include_router(offer_router)
 app.include_router(booking_router)
 app.include_router(auth_router)
+app.include_router(tutor_profiles_router)
+app.include_router(reviews_router)
+app.include_router(timeslots_router)

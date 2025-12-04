@@ -21,3 +21,10 @@ class UserOutput(BaseModel):
     last_name: str
     email: EmailStr
     role: UserRole
+
+class UserPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    first_name: str
+    last_name: str
+    email: str
+    role: str
