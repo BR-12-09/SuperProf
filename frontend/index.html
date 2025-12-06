@@ -92,51 +92,51 @@
   <section id="pageAuth" class="card">
     <div class="grid two">
         <h2>Bienvenue 👋</h2>
-        <p class="muted">Crée un compte <b>Student</b> ou <b>Tutor</b>, ou connecte-toi. Tu seras redirigé(e) selon ton rôle.</p>
+        <p class="muted">Crée un compte <b>Étudiant</b> ou <b>Tuteur</b>, ou connecte-toi. Tu seras redirigé(e) selon ton rôle.</p>
 
         <div class="grid two">
-          <!-- Tutor register -->
+          <!-- Tuteur : création -->
           <div class="item">
-            <h3>Créer un compte Tutor</h3>
+            <h3>Créer un compte Tuteur</h3>
             <div class="row">
-              <input id="rt_first" placeholder="first_name" />
-              <input id="rt_last" placeholder="last_name" />
+              <input id="rt_first" placeholder="prénom" />
+              <input id="rt_last" placeholder="nom" />
             </div>
-            <input id="rt_email" placeholder="email (ex: alice.demo@example.com)" />
-            <input id="rt_pass" placeholder="password" type="password" />
-            <button id="btnRegisterTutor" class="btn pri">Register + Login Tutor</button>
-            <p class="muted">Seed: <code>alice.tutor@example.com / pass</code></p>
+            <input id="rt_email" placeholder="e-mail (ex. alice.demo@example.com)" />
+            <input id="rt_pass" placeholder="mot de passe" type="password" />
+            <button id="btnRegisterTutor" class="btn pri">Créer + Se connecter (Tuteur)</button>
+            <p class="muted">Exemple : <code>alice.tutor@example.com / pass</code></p>
           </div>
 
-          <!-- Student register -->
+          <!-- Étudiant : création -->
           <div class="item">
-            <h3>Créer un compte Student</h3>
+            <h3>Créer un compte Étudiant</h3>
             <div class="row">
-              <input id="rs_first" placeholder="first_name" />
-              <input id="rs_last" placeholder="last_name" />
+              <input id="rs_first" placeholder="prénom" />
+              <input id="rs_last" placeholder="nom" />
             </div>
-            <input id="rs_email" placeholder="email (ex: bob.demo@example.com)" />
-            <input id="rs_pass" placeholder="password" type="password" />
-            <button id="btnRegisterStudent" class="btn pri">Register + Login Student</button>
-            <p class="muted">Seed: <code>bob.student@example.com / pass</code></p>
+            <input id="rs_email" placeholder="e-mail (ex. bob.demo@example.com)" />
+            <input id="rs_pass" placeholder="mot de passe" type="password" />
+            <button id="btnRegisterStudent" class="btn pri">Créer + Se connecter (Étudiant)</button>
+            <p class="muted">Exemple : <code>bob.student@example.com / pass</code></p>
           </div>
         </div>
 
         <div class="grid two" style="margin-top:12px">
-          <!-- Tutor login -->
+          <!-- Tuteur : connexion -->
           <div class="item">
-            <h3>Login Tutor</h3>
-            <input id="lt_email" placeholder="email (ex: alice.tutor@example.com)" />
-            <input id="lt_pass" placeholder="password" type="password" />
-            <button id="btnLoginTutor" class="btn">Login Tutor</button>
+            <h3>Connexion Tuteur</h3>
+            <input id="lt_email" placeholder="e-mail (ex. alice.tutor@example.com)" />
+            <input id="lt_pass" placeholder="mot de passe" type="password" />
+            <button id="btnLoginTutor" class="btn">Se connecter (Tuteur)</button>
           </div>
 
-          <!-- Student login -->
+          <!-- Étudiant : connexion -->
           <div class="item">
-            <h3>Login Student</h3>
-            <input id="ls_email" placeholder="email (ex: bob.demo@example.com)" />
-            <input id="ls_pass" placeholder="password" type="password" />
-            <button id="btnLoginStudent" class="btn">Login Student</button>
+            <h3>Connexion Étudiant</h3>
+            <input id="ls_email" placeholder="e-mail (ex. bob.student@example.com)" />
+            <input id="ls_pass" placeholder="mot de passe" type="password" />
+            <button id="btnLoginStudent" class="btn">Se connecter (Étudiant)</button>
           </div>
         </div>
     </div>
@@ -147,7 +147,7 @@
     <div class="tabs">
       <div class="tab active" data-tab="t1">Mes offres</div>
       <div class="tab" data-tab="t2">Créer une offre</div>
-      <div class="tab" data-tab="t3">Bookings reçus</div>
+      <div class="tab" data-tab="t3">Réservations reçues</div>
       <div class="tab" data-tab="t4">Mon profil</div>
       <div class="tab" data-tab="t5">Avis reçus</div>
     </div>
@@ -158,9 +158,9 @@
     <!-- t2: Créer une offre -->
     <div id="tab_t2" class="grid hidden">
       <div class="row">
-        <div style="flex:1"><label>Sujet</label><input id="offerSubject" placeholder="Python, Math, Anglais ..." /></div>
-        <div style="flex:2"><label>Description</label><input id="offerDesc" placeholder="Niveau, pédagogie, contenu..." /></div>
-        <div style="width:180px"><label>Prix / h</label><input id="offerPrice" type="number" min="5" step="1" placeholder="30" /></div>
+        <div style="flex:1"><label>Sujet</label><input id="offerSubject" placeholder="Python, Math, Anglais…" /></div>
+        <div style="flex:2"><label>Description</label><input id="offerDesc" placeholder="Niveau, pédagogie, contenu…" /></div>
+        <div style="width:180px"><label>Prix / h (€)</label><input id="offerPrice" type="number" min="5" step="1" placeholder="30" /></div>
       </div>
       <div class="row">
         <button id="btnCreateOffer" class="btn pri">➕ Créer l’offre</button>
@@ -168,10 +168,10 @@
       </div>
     </div>
 
-    <!-- t3: Bookings reçus -->
+    <!-- t3: Réservations reçues -->
     <div id="tab_t3" class="list hidden"></div>
 
-    <!-- t4: Mon profil (tutor) -->
+    <!-- t4: Mon profil (tuteur) -->
     <div id="tab_t4" class="hidden">
       <div class="item">
         <h3>Profil tuteur</h3>
@@ -180,7 +180,7 @@
             <label>Ville</label><input id="pf_city" placeholder="Paris" />
           </div>
           <div style="flex:1">
-            <label>Années d'expérience</label><input id="pf_years" type="number" min="0" step="1" placeholder="2" />
+            <label>Années d’expérience</label><input id="pf_years" type="number" min="0" step="1" placeholder="2" />
           </div>
         </div>
         <div class="row">
@@ -206,15 +206,15 @@
   <section id="pageStudent" class="card hidden">
     <div class="tabs">
       <div class="tab active" data-tab="s1">Offres disponibles</div>
-      <div class="tab" data-tab="s2">Mes bookings</div>
+      <div class="tab" data-tab="s2">Mes réservations</div>
     </div>
 
     <div id="tab_s1">
       <div class="item">
         <div class="row">
-          <div style="flex:2"><label>Recherche</label><input id="offerQ" placeholder="ex: python, math" /></div>
-          <div style="width:160px"><label>Prix min</label><input id="priceMin" type="number" min="0" step="1" placeholder="0" /></div>
-          <div style="width:160px"><label>Prix max</label><input id="priceMax" type="number" min="0" step="1" placeholder="999" /></div>
+          <div style="flex:2"><label>Recherche</label><input id="offerQ" placeholder="ex. python, math" /></div>
+          <div style="width:160px"><label>Prix min (€)</label><input id="priceMin" type="number" min="0" step="1" placeholder="0" /></div>
+          <div style="width:160px"><label>Prix max (€)</label><input id="priceMax" type="number" min="0" step="1" placeholder="999" /></div>
           <div style="width:200px">
             <label>Tri</label>
             <select id="sortBy">
@@ -244,14 +244,21 @@ let role  = localStorage.getItem("role")  || "";
 let me    = null;
 
 // caches
-const OFFERS_CACHE = new Map();   // offer_id -> offer
-const USER_CACHE   = new Map();   // user_id  -> user public
-const RATING_CACHE = new Map();   // tutor_id -> {avg, count}
-const SLOTS_CACHE  = new Map();   // offer_id -> [slots]
+const OFFERS_CACHE = new Map();
+const USER_CACHE   = new Map();
+const RATING_CACHE = new Map();
+const SLOTS_CACHE  = new Map();
 
 // helpers
 const $ = s => document.querySelector(s);
 const el = (t,c) => { const d=document.createElement(t); if(c) d.className=c; return d; };
+
+function roleFr(r){
+  if(r==="tutor") return "tuteur";
+  if(r==="student") return "étudiant";
+  return r || "";
+}
+
 function showToast(msg, type="info"){
   const t=$("#toast");
   t.textContent=msg; t.style.display="block";
@@ -262,7 +269,7 @@ function showToast(msg, type="info"){
   setTimeout(()=> t.style.display="none", 2200);
 }
 function setWho(){
-  $("#who").textContent = me ? `${me.role} — ${me.email}` : "non connecté";
+  $("#who").textContent = me ? `${roleFr(me.role)} — ${me.email}` : "non connecté";
 }
 function go(pageSel){
   ["#pageAuth","#pageTutor","#pageStudent"].forEach(s=>$(s).classList.add("hidden"));
@@ -282,20 +289,24 @@ async function apiJSON(path, opts={}){
   let data=null; try{ data=await r.json(); }catch{}
   return {ok:r.ok, status:r.status, data};
 }
-function fmtDate(s){
-  try{ const d=new Date(s); return d.toLocaleString(); }catch{ return s; }
+function fmtDateFR(dt){
+  const d = new Date(dt);
+  if (isNaN(d)) return "";
+  return d.toLocaleString('fr-FR', {
+    year:'2-digit', month:'2-digit', day:'2-digit',
+    hour:'2-digit', minute:'2-digit'
+  });
 }
 function stars(avg,count){
   if(avg==null) return `<span class="muted">—</span>`;
-  const full = Math.round(avg*2)/2; // demi-étoiles si besoin (visuel simple)
+  const full = Math.round(avg*2)/2;
   const on = "★".repeat(Math.floor(full));
   const half = (full%1)? "½" : "";
   const off = "☆".repeat(Math.max(0,5-Math.ceil(full)));
   return `<span class="stars" title="${avg.toFixed(2)} / 5 (${count||0} avis)">${on}${half}${off}</span>`;
 }
-function explainErrorPayload(data){
+function explainErreur(data){
   if(!data) return "Erreur inconnue";
-  // FastAPI 422: { detail: [ {loc:..., msg:"...", type:"..."} , ... ] }
   if(Array.isArray(data.detail)){
     return data.detail.map(d => d.msg || JSON.stringify(d)).join(" | ");
   }
@@ -334,7 +345,6 @@ async function resolveRoleAndRoute(){
 $("#btnLogout").onclick = ()=>{
   token=""; role=""; me=null; localStorage.removeItem("token"); localStorage.removeItem("role");
   setWho();
-  // purge champs/outputs
   ["rt_first","rt_last","rt_email","rt_pass","rs_first","rs_last","rs_email","rs_pass",
    "lt_email","lt_pass","ls_email","ls_pass","offerSubject","offerDesc","offerPrice","offerQ","priceMin","priceMax",
    "pf_city","pf_years","pf_langs","pf_bio"].forEach(id=>{ const x=$("#"+id); if(x) x.value=""; });
@@ -368,7 +378,6 @@ function fullName(u){
 }
 async function getTutorRating(tutorId){
   if(RATING_CACHE.has(tutorId)) return RATING_CACHE.get(tutorId);
-  // summary réel: /reviews/of-tutor/{tutor_id}/summary  -> {rating_count, rating_avg}
   const r = await apiJSON(`/reviews/of-tutor/${tutorId}/summary`);
   if(r.ok){
     const data = { avg: r.data?.rating_avg ?? null, count: r.data?.rating_count ?? 0 };
@@ -379,26 +388,17 @@ async function getTutorRating(tutorId){
 }
 async function getOfferSlots(offerId){
   if(SLOTS_CACHE.has(offerId)) return SLOTS_CACHE.get(offerId);
-  // route correcte: /timeslots/of-offer/{offer_id}
   const r = await apiJSON(`/timeslots/of-offer/${offerId}`);
   if(r.ok){ SLOTS_CACHE.set(offerId, r.data || []); return r.data || []; }
   return [];
 }
-
 async function getSlotFor(offerId, timeslotId){
   if (!timeslotId) return null;
   const list = await getOfferSlots(offerId);
   return list.find(s => s.id === timeslotId) || null;
 }
 
-function fmtDate(dtIso){
-  try {
-    const d = new Date(dtIso);
-    return d.toLocaleString();
-  } catch { return ""; }
-}
-
-// ---------- TUTOR: Mes offres (avec créneaux + ajout) ----------
+// ---------- TUTEUR : Mes offres ----------
 async function renderOfferCardForTutor(o){
   const meUser = await getUserPublic(o.tutor_id).catch(()=>null);
   const summary = await getTutorRating(o.tutor_id);
@@ -435,7 +435,7 @@ async function renderOfferCardForTutor(o){
     if(!slots || slots.length===0){ slotRoot.innerHTML=`<div class="muted">Aucun créneau.</div>`; return; }
     for(const s of slots){
       const d = el("div","row");
-      d.innerHTML = `<span class="pill">${fmtDate(s.start_utc)}</span><span class="pill">→ ${fmtDate(s.end_utc)}</span>`;
+      d.innerHTML = `<span class="pill">${fmtDateFR(s.start_utc)}</span><span class="pill">→ ${fmtDateFR(s.end_utc)}</span>`;
       slotRoot.appendChild(d);
     }
   }
@@ -451,7 +451,7 @@ async function renderOfferCardForTutor(o){
       sresp.textContent=""; it.querySelector(".slotStart").value=""; it.querySelector(".slotEnd").value="";
     } else {
       sresp.textContent = r.data?.detail || "Erreur";
-      showToast(r.data?.detail || "Erreur ajout créneau","error");
+      showToast(r.data?.detail || "Erreur lors de l’ajout du créneau","error");
     }
   };
   await refreshSlots();
@@ -472,32 +472,30 @@ async function loadMyOffers(){
 }
 document.querySelector('#pageTutor .tab[data-tab="t1"]').addEventListener("click", loadMyOffers);
 
-// ---------- TUTOR: Créer une offre ----------
+// ---------- TUTEUR : Créer une offre ----------
 $("#btnCreateOffer").onclick = async ()=>{
   const subject=$("#offerSubject").value || "Python";
-  const description=$("#offerDesc").value || "Bases -> avancé";
+  const description=$("#offerDesc").value || "Bases → avancé";
   const price_hour=parseFloat($("#offerPrice").value || "30");
   const {ok,data}=await apiJSON("/offers/", {method:"POST", body: JSON.stringify({subject,description,price_hour})});
   $("#outCreateOffer").textContent = ok ? "✅ Offre créée" : (data?.detail || "Erreur");
   if(ok){ showToast("Offre créée ✅","ok"); await loadMyOffers(); }
-  else { showToast(data?.detail || "Erreur création","error"); }
+  else { showToast(data?.detail || "Erreur lors de la création","error"); }
 };
 
-// ---------- TUTOR: Bookings reçus ----------
+// ---------- TUTEUR : Réservations reçues ----------
 async function loadBookingsOnMyOffers(){
   const root=$("#tab_t3");
   root.innerHTML="";
   for(let i=0;i<3;i++){ const s=el("div","item skeleton"); s.style.height="90px"; root.appendChild(s); }
 
-  // cache mes offres (sujet/price)
   const mine = await apiJSON("/offers/mine");
   if(mine.ok && Array.isArray(mine.data)){ mine.data.forEach(o=>OFFERS_CACHE.set(o.id,o)); }
 
-  // bookings sur mes offres
   const {ok,data}=await apiJSON("/bookings/list/on-my-offers");
   root.innerHTML="";
   if(!ok){ root.textContent = data?.detail || "Erreur"; return; }
-  if(!Array.isArray(data) || data.length===0){ root.innerHTML=`<div class="muted">Aucun booking pour l’instant.</div>`; return; }
+  if(!Array.isArray(data) || data.length===0){ root.innerHTML=`<div class="muted">Aucune réservation pour l’instant.</div>`; return; }
 
   for(const b of data){
     const offer = OFFERS_CACHE.get(b.offer_id);
@@ -508,7 +506,7 @@ async function loadBookingsOnMyOffers(){
     const desc  = offer?.description || "";
     const price = (offer?.price_hour!=null) ? `${offer.price_hour} €/h` : "";
     const studentLabel = fullName(student);
-    const slotLabel = slot ? `${fmtDate(slot.start_utc)} → ${fmtDate(slot.end_utc)}` : "—";
+    const slotLabel = slot ? `${fmtDateFR(slot.start_utc)} → ${fmtDateFR(slot.end_utc)}` : "—";
 
     const statusClass = b.status==='ACCEPTED'?'ok':(b.status==='REJECTED'?'warn':'');
     const it=el("div","item");
@@ -516,9 +514,9 @@ async function loadBookingsOnMyOffers(){
       <h4>Demande pour « ${subj} » <span class="pill ${statusClass}">${b.status}</span></h4>
       <div class="muted">${desc}</div>
       <div class="row" style="gap:8px; margin-top:4px">
-        ${price ? `<span class="pill">Tarif: ${price}</span>` : ``}
-        ${studentLabel ? `<span class="pill">Étudiant: ${studentLabel}</span>` : ``}
-        <span class="pill">Créneau: ${slotLabel}</span>
+        ${price ? `<span class="pill">Tarif : ${price}</span>` : ``}
+        ${studentLabel ? `<span class="pill">Étudiant : ${studentLabel}</span>` : ``}
+        <span class="pill">Créneau : ${slotLabel}</span>
       </div>
       <div class="row" style="margin-top:8px">
         <button class="btn pri" data-act="ACCEPT">ACCEPTER</button>
@@ -530,9 +528,9 @@ async function loadBookingsOnMyOffers(){
       btn.onclick = async ()=>{
         const act=btn.getAttribute("data-act");
         const r=await apiJSON(`/bookings/${b.id}/${act}`,{method:"POST"});
-        it.querySelector(".resp").textContent = r.ok ? "✅ statut mis à jour" : (r.data?.detail || "Erreur");
-        if(r.ok){ showToast(`Booking ${act} ✅`,"ok"); await loadBookingsOnMyOffers(); }
-        else { showToast(r.data?.detail || "Erreur action","error"); }
+        it.querySelector(".resp").textContent = r.ok ? "✅ Statut mis à jour" : (r.data?.detail || "Erreur");
+        if(r.ok){ showToast(`Réservation ${act==="ACCEPT"?"acceptée":"refusée"} ✅`,"ok"); await loadBookingsOnMyOffers(); }
+        else { showToast(r.data?.detail || "Erreur d’action","error"); }
       };
     });
     root.appendChild(it);
@@ -540,11 +538,10 @@ async function loadBookingsOnMyOffers(){
 }
 document.querySelector('#pageTutor .tab[data-tab="t3"]').addEventListener("click", loadBookingsOnMyOffers);
 
-// ---------- TUTOR: Profil ----------
+// ---------- TUTEUR : Profil ----------
 async function loadTutorProfile(){
   const city = $("#pf_city"), yrs=$("#pf_years"), langs=$("#pf_langs"), bio=$("#pf_bio"), info=$("#pf_info"), rate=$("#pf_rating");
   info.textContent="Chargement…";
-  // GET /tutors/me/profile
   const r = await apiJSON("/tutors/me/profile");
   if(r.ok && r.data){
     city.value = r.data.city || "";
@@ -555,22 +552,27 @@ async function loadTutorProfile(){
   } else {
     info.textContent = "Aucun profil encore créé.";
   }
-  // rating global
   if(me?.id){
     const s = await getTutorRating(me.id);
-    rate.innerHTML = `Note moyenne: ${stars(s.avg, s.count)}`;
+    rate.innerHTML = `Note moyenne : ${stars(s.avg, s.count)}`;
   }
 }
+function safeTrim(v){ return (typeof v === 'string') ? v.trim() : ''; }
 async function saveTutorProfile(){
-  const city = $("#pf_city")?.value.trim();
-  const years = $("#pf_years")?.value.trim();
-  const langsRaw = $("#pf_langs")?.value.trim();
-  const bio = $("#pf_bio")?.value.trim();
+  const city = safeTrim($("#pf_city")?.value);
+  const years = safeTrim($("#pf_years")?.value);
+  const langsRaw = safeTrim($("#pf_langs")?.value);
+  const bio = safeTrim($("#pf_bio")?.value);
 
   const payload = {};
   if(city) payload.city = city;
-  if(years) payload.years_exp = parseInt(years);
-  if(langsRaw) payload.languages = langsRaw.split(",").map(s=>s.trim()).filter(Boolean);
+  if(years !== ""){
+    const y = parseInt(years, 10);
+    if(Number.isFinite(y) && y >= 0) payload.years_exp = y;
+  }
+  if(langsRaw){
+    payload.languages = langsRaw.split(",").map(s=>s.trim()).filter(Boolean);
+  }
   if(bio) payload.bio = bio;
 
   const r = await apiJSON("/tutors/me/profile", {
@@ -584,10 +586,10 @@ async function saveTutorProfile(){
     showToast("Profil enregistré ✅", "ok");
     if(me?.id){
       const s = await getTutorRating(me.id);
-      $("#pf_rating").innerHTML = `Note moyenne: ${stars(s.avg, s.count)}`;
+      $("#pf_rating").innerHTML = `Note moyenne : ${stars(s.avg, s.count)}`;
     }
   } else {
-    const msg = explainErrorPayload(r.data);
+    const msg = explainErreur(r.data);
     msgNode.textContent = msg;
     showToast(msg, "error");
   }
@@ -595,13 +597,12 @@ async function saveTutorProfile(){
 $("#btnSaveProfile").onclick = saveTutorProfile;
 document.querySelector('#pageTutor .tab[data-tab="t4"]').addEventListener("click", loadTutorProfile);
 
-// ---------- TUTOR: Avis reçus ----------
+// ---------- TUTEUR : Avis reçus ----------
 async function loadTutorReviews(){
   const root=$("#tab_t5");
   root.innerHTML="";
   for(let i=0;i<3;i++){ const s=el("div","item skeleton"); s.style.height="70px"; root.appendChild(s); }
   if(!me?.id){ root.innerHTML=`<div class="muted">Profil inconnu.</div>`; return; }
-  // route correcte
   const r = await apiJSON(`/reviews/of-tutor/${me.id}`);
   root.innerHTML="";
   if(!r.ok){ root.textContent = r.data?.detail || "Erreur"; return; }
@@ -612,7 +613,7 @@ async function loadTutorReviews(){
     it.innerHTML = `
       <div class="row" style="justify-content:space-between">
         <div>${stars(rev.rating, 1)}</div>
-        <div class="muted">${rev.created_at ? fmtDate(rev.created_at) : ""}</div>
+        <div class="muted">${rev.created_at ? fmtDateFR(rev.created_at) : ""}</div>
       </div>
       <div>${(rev.comment||"").replace(/</g,"&lt;")}</div>
     `;
@@ -621,7 +622,7 @@ async function loadTutorReviews(){
 }
 document.querySelector('#pageTutor .tab[data-tab="t5"]').addEventListener("click", loadTutorReviews);
 
-// ---------- STUDENT: Offres (liste + notes + créneaux) ----------
+// ---------- ÉTUDIANT : Offres ----------
 async function refreshOffersList(){
   const root=$("#offersList");
   root.innerHTML="";
@@ -668,8 +669,8 @@ async function refreshOffersList(){
     const resp = it.querySelector(".resp");
     it.querySelector(".book").onclick = async ()=>{
       const r=await apiJSON("/bookings/", {method:"POST", body: JSON.stringify({offer_id:o.id})});
-      resp.textContent = r.ok ? "✅ demande envoyée" : (r.data?.detail || "Erreur");
-      showToast(r.ok ? "Booking créé ✅" : (r.data?.detail || "Erreur booking"), r.ok?"ok":"error");
+      resp.textContent = r.ok ? "✅ Demande envoyée" : (r.data?.detail || "Erreur");
+      showToast(r.ok ? "Réservation créée ✅" : (r.data?.detail || "Erreur de réservation"), r.ok?"ok":"error");
     };
     const slotsDiv = it.querySelector(".slots");
     it.querySelector(".toggleSlots").onclick = async ()=>{
@@ -683,15 +684,13 @@ async function refreshOffersList(){
         const row = el("div","row");
         row.style.alignItems="center";
         row.innerHTML = `
-          <span class="pill">${fmtDate(s.start_utc)}</span>
-          <span class="pill">→ ${fmtDate(s.end_utc)}</span>
+          <span class="pill">${fmtDateFR(s.start_utc)}</span>
+          <span class="pill">→ ${fmtDateFR(s.end_utc)}</span>
           <button class="btn pri reserve">Réserver ce créneau</button>
           <span class="muted sresp"></span>
         `;
         row.querySelector(".reserve").onclick = async ()=>{
-          // 1) tentative route dédiée
           let r = await apiJSON(`/bookings/slot/${s.id}`, {method:"POST"});
-          // 2) fallback si 404: on passe par POST /bookings/ avec un corps enrichi
           if(r.status === 404){
             r = await apiJSON(`/bookings/`, {
               method:"POST",
@@ -699,8 +698,8 @@ async function refreshOffersList(){
             });
           }
           const out = row.querySelector(".sresp");
-          out.textContent = r.ok ? "✅ réservé" : (r.data?.detail || "Erreur");
-          showToast(r.ok ? "Réservation créneau ✅" : (r.data?.detail || "Erreur réservation"), r.ok?"ok":"error");
+          out.textContent = r.ok ? "✅ Réservé" : (r.data?.detail || "Erreur");
+          showToast(r.ok ? "Créneau réservé ✅" : (r.data?.detail || "Erreur de réservation"), r.ok?"ok":"error");
         };
         slotsDiv.appendChild(row);
       }
@@ -711,7 +710,7 @@ async function refreshOffersList(){
 $("#btnListOffers").onclick = refreshOffersList;
 document.querySelector('#pageStudent .tab[data-tab="s1"]').addEventListener("click", refreshOffersList);
 
-// ---------- STUDENT: Mes bookings (avis si ACCEPTED) ----------
+// ---------- ÉTUDIANT : Mes réservations ----------
 async function loadMyBookings(){
   const root=$("#tab_s2");
   root.innerHTML="";
@@ -719,10 +718,9 @@ async function loadMyBookings(){
   const {ok,data}=await apiJSON("/bookings/list/mine");
   root.innerHTML="";
   if(!ok){ root.textContent = data?.detail || "Erreur"; return; }
-  if(!Array.isArray(data) || data.length===0){ root.innerHTML=`<div class="muted">Aucun booking.</div>`; return; }
+  if(!Array.isArray(data) || data.length===0){ root.innerHTML=`<div class="muted">Aucune réservation.</div>`; return; }
 
   for(const b of data){
-    // offre + tuteur
     let offer = OFFERS_CACHE.get(b.offer_id);
     if(!offer){
       const all = await apiJSON(`/offers/`);
@@ -736,7 +734,7 @@ async function loadMyBookings(){
     const desc  = offer?.description || "";
     const price = (offer?.price_hour!=null) ? `${offer.price_hour} €/h` : "";
     const tutorLabel = fullName(tutor);
-    const slotLabel = slot ? `${fmtDate(slot.start_utc)} → ${fmtDate(slot.end_utc)}` : "—";
+    const slotLabel = slot ? `${fmtDateFR(slot.start_utc)} → ${fmtDateFR(slot.end_utc)}` : "—";
     const statusClass = b.status==='ACCEPTED'?'ok':(b.status==='REJECTED'?'warn':'');
 
     const it=el("div","item");
@@ -744,9 +742,9 @@ async function loadMyBookings(){
       <h4>Votre demande pour « ${subj} » <span class="pill ${statusClass}">${b.status}</span></h4>
       <div class="muted">${desc}</div>
       <div class="row" style="gap:8px; margin-top:4px">
-        ${price ? `<span class="pill">Tarif: ${price}</span>` : ``}
-        ${tutorLabel ? `<span class="pill">Tuteur: ${tutorLabel}</span>` : ``}
-        <span class="pill">Créneau: ${slotLabel}</span>
+        ${price ? `<span class="pill">Tarif : ${price}</span>` : ``}
+        ${tutorLabel ? `<span class="pill">Tuteur : ${tutorLabel}</span>` : ``}
+        <span class="pill">Créneau : ${slotLabel}</span>
       </div>
       ${b.status==='ACCEPTED' ? `
         <div class="row" style="gap:8px; margin-top:10px; align-items:flex-start">
@@ -764,7 +762,6 @@ async function loadMyBookings(){
       ` : ``}
     `;
 
-    // handler avis (reviews) — route correcte
     it.querySelector(".rvSend")?.addEventListener("click", async ()=>{
       const rating = parseInt(it.querySelector(".rvRating").value || "5");
       const comment = it.querySelector(".rvComment").value || "";
@@ -774,7 +771,7 @@ async function loadMyBookings(){
       });
       const out = it.querySelector(".rvResp");
       out.textContent = r.ok ? "✅ Avis envoyé" : (r.data?.detail || "Erreur");
-      showToast(r.ok ? "Avis envoyé ✅" : (r.data?.detail || "Erreur avis"), r.ok?"ok":"error");
+      showToast(r.ok ? "Avis envoyé ✅" : (r.data?.detail || "Erreur lors de l’envoi de l’avis"), r.ok?"ok":"error");
     });
 
     root.appendChild(it);
@@ -798,7 +795,7 @@ async function boot(){
     go("#pageAuth");
   }
 }
-// AUTH buttons
+// Boutons AUTH
 document.getElementById("btnRegisterTutor")?.addEventListener("click", async ()=>{
   const payload = {
     first_name: $("#rt_first").value || "Alice",
@@ -808,8 +805,8 @@ document.getElementById("btnRegisterTutor")?.addEventListener("click", async ()=
     role: "tutor"
   };
   const {ok,data}=await registerApi(payload);
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte tutor créé ✅","ok"); }
-  else { showToast(data?.detail || "Erreur register","error"); }
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte tuteur créé ✅","ok"); }
+  else { showToast(explainErreur(data) || "Erreur d’inscription","error"); }
 });
 document.getElementById("btnRegisterStudent")?.addEventListener("click", async ()=>{
   const payload = {
@@ -820,22 +817,22 @@ document.getElementById("btnRegisterStudent")?.addEventListener("click", async (
     role: "student"
   };
   const {ok,data}=await registerApi(payload);
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte student créé ✅","ok"); }
-  else { showToast(data?.detail || "Erreur register","error"); }
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte étudiant créé ✅","ok"); }
+  else { showToast(explainErreur(data) || "Erreur d’inscription","error"); }
 });
 document.getElementById("btnLoginTutor")?.addEventListener("click", async ()=>{
   const email=$("#lt_email").value || "alice.tutor@example.com";
   const pass =$("#lt_pass").value  || "pass";
   const {ok,data}=await loginApi(email,pass);
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Connecté (tutor) ✅","ok"); }
-  else { showToast(data?.detail || "Erreur login","error"); }
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Connecté (tuteur) ✅","ok"); }
+  else { showToast(explainErreur(data) || "Erreur de connexion","error"); }
 });
 document.getElementById("btnLoginStudent")?.addEventListener("click", async ()=>{
   const email=$("#ls_email").value || "bob.student@example.com";
   const pass =$("#ls_pass").value  || "pass";
   const {ok,data}=await loginApi(email,pass);
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Connecté (student) ✅","ok"); }
-  else { showToast(data?.detail || "Erreur login","error"); }
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Connecté (étudiant) ✅","ok"); }
+  else { showToast(explainErreur(data) || "Erreur de connexion","error"); }
 });
 
 boot();
