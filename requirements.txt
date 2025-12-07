@@ -9,3 +9,4 @@ pytest
 pytest-cov
 httpx
 requests
+pandas

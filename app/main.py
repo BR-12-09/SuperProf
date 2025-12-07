@@ -13,6 +13,7 @@ from app.routers.auth import auth_router
 from app.routers.tutor_profiles import router as tutor_profiles_router
 from app.routers.reviews import router as reviews_router
 from app.routers.timeslots import router as timeslots_router
+from app.routers.search import router as search_router
 from app.database import BaseSQL, engine
 
 def wait_for_db(max_retries: int = 60, delay_sec: float = 1.0):
@@ -28,7 +29,7 @@ def wait_for_db(max_retries: int = 60, delay_sec: float = 1.0):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    wait_for_db()  # <-- important
+    wait_for_db()
     BaseSQL.metadata.create_all(bind=engine)
     yield
 
@@ -41,7 +42,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080"],  # ou ["*"] pour la démo
+    allow_origins=["http://localhost:8080"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -55,3 +56,4 @@ app.include_router(auth_router)
 app.include_router(tutor_profiles_router)
 app.include_router(reviews_router)
 app.include_router(timeslots_router)
+app.include_router(search_router)

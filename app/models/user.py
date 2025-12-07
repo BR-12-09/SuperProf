@@ -20,6 +20,10 @@ class User(BaseSQL):
     photo_url = Column(String, nullable=True)
     hashed_password = Column(String, nullable=True)
 
+    postal_code = Column(String, nullable=True)
+    department = Column(String, nullable=True)
+
+
     # Relation tuteur -> ses offres
     offers = relationship("Offer", back_populates="tutor", cascade="all,delete", lazy="selectin")
     tutor_profile = relationship("TutorProfile", uselist=False, back_populates="user")
