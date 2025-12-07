@@ -2,6 +2,10 @@
 
 Projet de démonstration inspiré de Superprof : gestion d’offres de cours (tuteurs), réservations (étudiants), créneaux horaires, profils tuteurs, avis & notes, et mini-frontend statique.
 
+## Choix du sujet
+Aujourd’hui, malgré la large visibilité offerte par les réseaux sociaux, il demeure difficile de trouver un professeur ou un coach. En effet, certaines plateformes comme Superprof possèdent quasiment le monopole des annonces dans ce domaine. En contrepartie de la mise en relation qu’elles proposent, ces plateformes exigent un paiement pour pouvoir contacter un enseignant. Afin de remédier à cette situation, nous souhaitons créer une application qui permette de mettre gratuitement en relation élèves et professeurs, afin de lutter contre la précarité et de favoriser l’accès à l’apprentissage pour tous.
+
+
 ## Pile technique
 - API : FastAPI, SQLAlchemy, Pydantic, JWT
 - DB : PostgreSQL
@@ -61,6 +65,7 @@ Accès :
 - Profils tuteurs : ville, années d’expérience, langues, bio (CRUD pour le tuteur connecté)
 - Avis & notes : laisser un avis (après acceptation), résumé des notes d’un tuteur
 - Mini-frontend
+- Recommendations d'offres basées sur la localisation des utilisateurs et tuteurs (non implémenté sur le front-end)
 
 ---
 
@@ -83,6 +88,7 @@ Offres & Créneaux
 - `POST /offers/` → créer une offre (tuteur)
 - `POST /timeslots/` → publier un créneau (tuteur)
 - `GET /timeslots/of-offer/{offer_id}` → créneaux d’une offre
+- `GET /offers/recommendations` -> liste de 3 offres recommendées sur la base de la localisation (département commun)
 
 Bookings (réservations)
 - `POST /bookings/` → body : `{ offer_id, [timeslot_id] }`
@@ -102,8 +108,13 @@ Avis / Notes
 - `GET /reviews/of-tutor/{tutor_id}/summary` → `{ rating_count, rating_avg }`
 
 Utilisateurs
-- `GET /users/{id}` → `{ first_name, last_name, email, role }`
+- `GET /users/` → `{ first_name, last_name, email, role, postal_code, departement }`
+- `GET /users/{id}` → `{ first_name, last_name, email, role, postal_code, departement }`
+- `POST /users/` -> `{first_name, last_name, email, role, postal_code }`
+- `DELETE /users/{id}` -> supprime un utilisateur
 
+Search
+- `GET /search/tutors/` -> recherche et renvoie les tuteurs d'un département
 ---
 
 ## Frontend
@@ -125,9 +136,15 @@ Le fichier `frontend/index.html` fournit une UI de démonstration :
 
 ## Dépannage
 
-- 401 Unauthorized : token absent/expiré → reconnecte-toi.
-- 404 Not Found : vérifie la route exacte. Si `POST /bookings/slot/{timeslot_id}` n’existe pas, utilise `POST /bookings` avec `timeslot_id`.
+- 401 Unauthorized : token absent/expiré → il faut se reconnecter.
+- 404 Not Found : vérifie la route exacte. Si `POST /bookings/slot/{timeslot_id}` n’existe pas, il faut utiliser `POST /bookings` avec `timeslot_id`.
 - 422 Unprocessable Entity :
   - Profils tuteurs : `languages` doit être un tableau de chaînes (le front convertit “fr, en” → `["fr","en"]`).
   - Créneaux : `start_utc < end_utc`, format ISO 8601 (UTC).
 - CORS / ports : le front appelle l’API sur `http://localhost:5001`.
+
+## Pistes d'améliorations possibles 
+Il aurait été intéressant d'implémenter un système de réservation avec un calendrier intégré, un dashboard pour les tuteurs et la vue des cours à venir afin de rendre le tout plus facile d'utilisation. De plus, un système de paiement aurait été idéal puisque dans les faits, les cours sont payants. Enfin, une messagerie interne aurait été plus que judicieuse dans le cadre de cec projet.
+
+## Difficultés rencontrées
+Quelques difficultés à rester bien organisé dans un projet contenant de nombreuses api et méthodes et il peut être très vite arrivé de se perdre lorsqu'il s'agit de mettre à jour des implémentations au cours du projet à plusieurs reprises. Certaines idées viennent en cours de route et cela peut demander de revoir certains blocs de code assez conséquents. Le projet est aussi plutôt challengeant d'un point de vue technique. Quelques problème au niveau des tests aussi sur l'access token...

@@ -16,10 +16,7 @@ def search_tutors_by_location(
     db: Session = Depends(get_db)
 ):
     """
-    Endpoint de recherche intelligente.
-    Prend un code postal complet (ex: 75011), 
-    utilise Pandas pour extraire le département, 
-    et renvoie les profs de ce département.
+    Renvoie les profs d'un département précis
     """
     
     # Validation du format du code postal
