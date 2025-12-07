@@ -8,6 +8,7 @@ class TutorProfileIn(BaseModel):
     years_experience: Optional[int] = None
     photo_url: Optional[str] = None
 
+
     class Config:
         from_attributes = True
 

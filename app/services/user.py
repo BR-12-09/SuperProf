@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.models.user import User as ModelsUser
 from app.serializers.user import User as SerializersUser
 from app.exceptions.user import UserNotFound, UserAlreadyExists
+from app.services.geo_service import postal_code_to_department  # ← AJOUT
 
 def get_all_users(db: Session, skip: int = 0, limit: int = 10) -> list[ModelsUser]:
     records = db.query(ModelsUser).offset(skip).limit(limit).all()
@@ -22,16 +23,14 @@ def get_user_by_id(user_id: str, db: Session) -> ModelsUser:
     return record
 
 
-""" def get_users_by_title(title: str, db: Session) -> list[models.User]:
-    records = db.query(models.User).filter(models.User.title == title).all()
-    for record in records:
-        record.id = str(record.id)
-    return records """
-
-
 def update_user(user_id: str, db: Session, user: SerializersUser) -> ModelsUser:
     db_user = get_user_by_id(user_id=user_id, db=db)
     payload = user.model_dump(exclude_unset=True)
+    
+    # ← AJOUT: Recalculer le département si postal_code change
+    if 'postal_code' in payload and payload['postal_code']:
+        payload['department'] = postal_code_to_department(payload['postal_code'])
+    
     for field, value in payload.items():
         if value is not None:
             setattr(db_user, field, value)
@@ -49,7 +48,13 @@ def delete_user(user_id: str, db: Session) -> ModelsUser:
 
 
 def create_user(db: Session, user: SerializersUser) -> ModelsUser:
-    db_user = ModelsUser(**user.model_dump())
+    user_data = user.model_dump()
+    
+    # Calculer automatiquement le département
+    if user_data.get('postal_code'):
+        user_data['department'] = postal_code_to_department(user_data['postal_code'])
+    
+    db_user = ModelsUser(**user_data)
     db.add(db_user)
     try:
         db.commit()
