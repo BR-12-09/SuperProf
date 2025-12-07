@@ -103,7 +103,7 @@
               <input id="rt_last" placeholder="nom" />
             </div>
             <input id="rt_email" placeholder="e-mail (ex. alice.demo@example.com)" />
-            <input id="rt_pass" placeholder="mot de passe" type="password" />
+            <input id="rt_pass" placeholder="mot de passe" type="password"  required minlength="4"/>
             <button id="btnRegisterTutor" class="btn pri">Créer + Se connecter (Tuteur)</button>
             <p class="muted">Exemple : <code>alice.tutor@example.com / pass</code></p>
           </div>
@@ -116,7 +116,7 @@
               <input id="rs_last" placeholder="nom" />
             </div>
             <input id="rs_email" placeholder="e-mail (ex. bob.demo@example.com)" />
-            <input id="rs_pass" placeholder="mot de passe" type="password" />
+            <input id="rs_pass" placeholder="mot de passe" type="password" required minlength="4"/>
             <button id="btnRegisterStudent" class="btn pri">Créer + Se connecter (Étudiant)</button>
             <p class="muted">Exemple : <code>bob.student@example.com / pass</code></p>
           </div>
@@ -797,28 +797,32 @@ async function boot(){
 }
 // Boutons AUTH
 document.getElementById("btnRegisterTutor")?.addEventListener("click", async ()=>{
+  const pwd = $("#rt_pass").value || "";
+  if (pwd.trim().length < 4) { showToast("Mot de passe requis (≥ 4 caractères)", "error"); return; }
   const payload = {
     first_name: $("#rt_first").value || "Alice",
     last_name:  $("#rt_last").value  || "Tutor",
     email:      $("#rt_email").value || "alice.demo@example.com",
-    password:   $("#rt_pass").value  || "pass",
+    password:   pwd,
     role: "tutor"
   };
   const {ok,data}=await registerApi(payload);
   if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte tuteur créé ✅","ok"); }
-  else { showToast(explainErreur(data) || "Erreur d’inscription","error"); }
+  else { showToast(data?.detail || "Erreur register","error"); }
 });
 document.getElementById("btnRegisterStudent")?.addEventListener("click", async ()=>{
+  const pwd = $("#rs_pass").value || "";
+  if (pwd.trim().length < 4) { showToast("Mot de passe requis (≥ 4 caractères)", "error"); return; }
   const payload = {
     first_name: $("#rs_first").value || "Bob",
     last_name:  $("#rs_last").value  || "Student",
     email:      $("#rs_email").value || "bob.demo@example.com",
-    password:   $("#rs_pass").value  || "pass",
+    password:   pwd,
     role: "student"
   };
   const {ok,data}=await registerApi(payload);
-  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte étudiant créé ✅","ok"); }
-  else { showToast(explainErreur(data) || "Erreur d’inscription","error"); }
+  if(ok){ afterLogin(data.access_token); await resolveRoleAndRoute(); showToast("Compte élève créé ✅","ok"); }
+  else { showToast(data?.detail || "Erreur register","error"); }
 });
 document.getElementById("btnLoginTutor")?.addEventListener("click", async ()=>{
   const email=$("#lt_email").value || "alice.tutor@example.com";

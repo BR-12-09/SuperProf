@@ -63,16 +63,31 @@ def create_user_with_password(
     last_name: str,
     role: str
 ) -> User:
-    existing = db.query(User).filter(User.email == email).first()
+    # normalisation
+    email_norm = email.strip().lower()
+    first_name = first_name.strip()
+    last_name = last_name.strip()
+    if not email_norm:
+        raise HTTPException(status_code=422, detail="email est requis")
+    if not first_name:
+        raise HTTPException(status_code=422, detail="first_name est requis")
+    if not last_name:
+        raise HTTPException(status_code=422, detail="last_name est requis")
+
+    pwd = (password or "").strip()
+    if len(pwd) < 4:
+        raise HTTPException(status_code=422, detail="password doit contenir au moins 4 caractères")
+
+    existing = db.query(User).filter(User.email == email_norm).first()
     if existing:
         raise UserAlreadyExists("User already exists")
 
     u = User(
-        email=email,
+        email=email_norm,
         first_name=first_name,
         last_name=last_name,
         role=UserRole(role),
-        hashed_password=hash_password(password),
+        hashed_password=hash_password(pwd),
     )
     db.add(u)
     db.commit()
@@ -80,9 +95,11 @@ def create_user_with_password(
     return u
 
 def generate_access_token(db: Session, *, email: str, password: str) -> str:
-    user = db.query(User).filter(User.email == email).first()
+    email_norm = (email or "").strip().lower()
+    user = db.query(User).filter(User.email == email_norm).first()
     if not user:
         raise UserNotFound("User not found")
-    if not user.hashed_password or not check_password(password, user.hashed_password):
+    pwd = (password or "").strip()
+    if not user.hashed_password or not check_password(pwd, user.hashed_password):
         raise IncorrectPassword("Incorrect password")
     return _encode_jwt(user.id)
