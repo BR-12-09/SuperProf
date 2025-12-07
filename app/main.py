@@ -14,6 +14,7 @@ from app.routers.tutor_profiles import router as tutor_profiles_router
 from app.routers.reviews import router as reviews_router
 from app.routers.timeslots import router as timeslots_router
 from app.routers.search import router as search_router
+from app.services.offer import get_offers_by_department
 from app.database import BaseSQL, engine
 
 def wait_for_db(max_retries: int = 60, delay_sec: float = 1.0):
